@@ -8,13 +8,13 @@ import message_handlers.*;
 
 public class ConnectionHandler implements Runnable {
 	private Socket connectionSocket;
-	private List<Node> nodeList;
-	private Node currentClient;
+	private NodeList nodeList;
+	private Node self;
 	
-	ConnectionHandler(Socket socket, List<Node> nodeList, Node node) {
+	ConnectionHandler(Socket socket, NodeList nodeList, Node node) {
 		connectionSocket = socket;
 		this.nodeList = nodeList;
-		currentClient = node;
+		self = node;
 	}
 	
 //	in, out, nodelist, self
