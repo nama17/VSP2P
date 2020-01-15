@@ -3,6 +3,7 @@ package core;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import util.ArrayHelper;
 
@@ -13,11 +14,15 @@ public class Heartbeat implements Runnable {
 
     @Override
     public void run() {
-        register();
-        keepAlive();
+        try {
+            register();
+            keepAlive();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
-    private void keepAlive() {
+    private void keepAlive() throws InterruptedException, IOException {
         while (true) {
             Thread.sleep(50 * 1000);
             Socket socket = new Socket(server.ip, server.port);
@@ -34,7 +39,7 @@ public class Heartbeat implements Runnable {
         }
     }
     
-    private void register() {
+    private void register() throws UnknownHostException, IOException {
         Socket socket = new Socket(server.ip, server.port);
         OutputStream out = socket.getOutputStream();
         byte[] data = new byte[2];
