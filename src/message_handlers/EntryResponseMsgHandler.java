@@ -1,16 +1,20 @@
 package message_handlers;
-import java.net.Socket;
-import core.Node;
-import core.NodeList;
+import core.*;
+import java.net.*;
 
-
-public class EntryResponseMsgHandler extends MsgHandler{
-	EntryResponseMsgHandler(NodeList nodeList, Node currentClient, Socket connectionSocket) {
-		super(nodeList, currentClient, connectionSocket);
+public class EntryResponseMsgHandler extends MsgHandler {
+	private NodeList nodeList;
+	private Node self;
+	private Socket connectionSocket;
+	
+	public EntryResponseMsgHandler (NodeList nodeList, Node self, Socket connectionSocket) {
+		this.nodeList = nodeList;
+		this.self = self;
+		this.connectionSocket = connectionSocket;
 	}
 	
 	@Override
-	public void handle(){
-		
+	public void handle() {
+
 	}
 }
