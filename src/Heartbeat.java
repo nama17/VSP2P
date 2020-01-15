@@ -6,8 +6,8 @@ public class Heartbeat implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-
+        // TODO Register with server
+        // TODO Periodically send IAmAliveMsg
     }
     
     public Heartbeat(NodeList nodes, Node server, Node self) {
