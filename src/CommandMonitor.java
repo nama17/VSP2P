@@ -13,6 +13,7 @@ public class CommandMonitor implements Runnable {
         String listNodesPattern = "^list$";
         Pattern idPattern = Pattern.compile("\\d{1,2}(?=.*$)");
         Pattern msgContentPattern = Pattern.compile("(?<=sende \\d{1,2} ).+$");
+        System.out.println("Client: Folgende Befehle koennen verwendet werden:\nsuche <Id>\nsende <Id> <Nachricht>\nlist");
         while (true) {
             Scanner sc = new Scanner(System.in);
             String command = sc.nextLine();
