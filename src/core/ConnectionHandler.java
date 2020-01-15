@@ -1,3 +1,4 @@
+package core;
 import java.io.IOException;
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -8,11 +9,15 @@ import message_handlers.*;
 public class ConnectionHandler implements Runnable {
 	private Socket connectionSocket;
 	private List<Node> nodeList;
-
-	ConnectionHandler(Socket socket, List<Node> nodeList) {
+	private Node currentClient;
+	
+	ConnectionHandler(Socket socket, List<Node> nodeList, Node node) {
 		connectionSocket = socket;
 		this.nodeList = nodeList;
+		currentClient = node;
 	}
+	
+//	in, out, nodelist, self
 
 	@Override
 	public void run() {
@@ -73,7 +78,6 @@ public class ConnectionHandler implements Runnable {
 				System.out.println("Client: Ungueltiges Tag in Nachricht erhalten. Tag: " + tag);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
