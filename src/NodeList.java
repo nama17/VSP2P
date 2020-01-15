@@ -41,6 +41,7 @@ public class NodeList {
     
     public NodeList(int maxNodes) {
         this.maxNodes = maxNodes;
+        nodes = new ArrayList<Node>();
     }
 
 }
