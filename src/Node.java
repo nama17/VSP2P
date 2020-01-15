@@ -40,6 +40,10 @@ public class Node {
         return buffer.array();
     }
     
+    public void print() {
+        System.out.println("Node info:\n\tIP: " + ip + "\n\tPort: " + port +  "\n\tId: " + id + "\n\tTime: " + time);
+    }
+    
     public Node(String ip, int port, int id) {
         this.ip = ip;
         this.port = port;
