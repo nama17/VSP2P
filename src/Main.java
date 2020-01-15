@@ -35,7 +35,9 @@ public class Main {
             startedServer = true;
         }
         int clientPort = startedServer ? 3334 : 3333;
-        Client client = new Client(clientPort, entryServerIp, entryServerPort);
+        Node server = new Node(entryServerIp, entryServerPort, 0);
+        Node clientNode = new Node(InetAddress.getLocalHost().getHostAddress(), clientPort, 0);
+        Client client = new Client(clientNode, server);
         new Thread(client).start();
     }
 
