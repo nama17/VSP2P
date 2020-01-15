@@ -18,7 +18,7 @@ public class Client implements Runnable {
     public void run() {
         CommandMonitor monitor = new CommandMonitor(nodes, self);
         new Thread(monitor).start();
-        Heartbeat heartbeat = new Heartbeat(nodes, server);
+        Heartbeat heartbeat = new Heartbeat(nodes, server, self);
         new Thread(heartbeat).start();
         try {
             ServerSocket serverSocket = new ServerSocket(self.port);
