@@ -1,10 +1,17 @@
 package core;
+
 import java.util.ArrayList;
 
 public class NodeList {
     public ArrayList<Node> nodes;
     private int maxNodes;
-    
+
+    // my humble contribution
+    public int getSize() {
+        return nodes.size();
+    }
+    //
+
     public Node addNode(String ip, int port, int id) {
         Node node = new Node(ip, port, id);
         if (nodes.size() >= maxNodes && maxNodes > 0) {
@@ -13,7 +20,7 @@ public class NodeList {
         nodes.add(node);
         return node;
     }
-    
+
     public Node getNode(int id) {
         for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
@@ -24,7 +31,7 @@ public class NodeList {
         }
         return null;
     }
-    
+
     private void removeOldest() {
         if (nodes.size() == 0) {
             return;
@@ -39,7 +46,7 @@ public class NodeList {
         }
         nodes.remove(index);
     }
-    
+
     public NodeList(int maxNodes) {
         this.maxNodes = maxNodes;
         nodes = new ArrayList<Node>();
