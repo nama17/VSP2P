@@ -1,14 +1,9 @@
 package core;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import util.ArrayHelper;
 
 public class CommandMonitor implements Runnable {
     private NodeList nodes;
@@ -32,7 +27,7 @@ public class CommandMonitor implements Runnable {
                     Matcher m = idPattern.matcher(command);
                     m.find();
                     String id = m.group();
-                    searchPeerById(Integer.parseInt(id));
+                    searchPeerById(Short.parseShort(id));
                 } else if (command.matches(msgPattern)) {
                     Matcher m = idPattern.matcher(command);
                     m.find();
@@ -40,55 +35,40 @@ public class CommandMonitor implements Runnable {
                     Matcher mt = msgContentPattern.matcher(command);
                     mt.find();
                     String msgContent = mt.group();
-                    sendP2PMsgMsg(Integer.parseInt(id), msgContent);
+                    sendP2PMsgMsg(Short.parseShort(id), msgContent);
                 } else if (command.matches(listNodesPattern)) {
                     listNodes();
                 } else if (command.matches(leaderPattern)) {
                     election();
                 }
             }
-        } catch (NumberFormatException | IOException e) {
+        } catch (NumberFormatException | IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
     
-    private void searchPeerById(int id) throws UnknownHostException, IOException {
-        Node node = nodes.getNode(id);
-        if (node != null) {
-            System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
-            return;
-        }
-        for (int i = 0; i < nodes.nodes.size(); i++) {
-            node = nodes.nodes.get(i);
-            Socket socket = new Socket(node.ip, node.port);
-            OutputStream out = socket.getOutputStream();
-            byte[] data = new byte[2];
-            data[0] = 6; // Tag
-            data[1] = 1; // Version
-            byte[] selfData = self.toByteArr();
-            data = ArrayHelper.merge(data, selfData);
-            byte[] searchData = new byte[4];
-            ByteBuffer buffer = ByteBuffer.allocate(2);
-            buffer.putShort(searchID);
-            byte[] searchIDArr = buffer.array();
-            searchData[0] = searchIDArr[0];
-            searchData[1] = searchIDArr[1];
-            buffer = ByteBuffer.allocate(2);
-            buffer.putShort((short)id);
-            byte[] idArr = buffer.array();
-            searchData[2] = idArr[0];
-            searchData[3] = idArr[1];
-            data = ArrayHelper.merge(data, searchData);
-            out.write(data);
-            System.out.println("Client: P2PNodeSearchMsg gesendet");
-            ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
-            new Thread(handler).start();
-        }
+    private void searchPeerById(short id) throws IOException {
+        NodeSearch search = new NodeSearch(nodes, self, searchID, id);
+        search.search();
     }
     
-    private void sendP2PMsgMsg(int id, String msg) {
-        // TODO
+    private void sendP2PMsgMsg(short id, String msg) throws UnknownHostException, IOException, InterruptedException {
+        if (nodes.getNode(id) == null) {
+            searchPeerById(id);
+            Thread.sleep(100);
+            for (int i = 0; i < 9 && nodes.getNode(id) == null; i++) {
+                Thread.sleep(100);
+            }
+        }
+        Node node = nodes.getNode(id);
+        if (node == null) {
+            System.out.println("Client: Msg konnte nicht gesendet werden, da der Empfänger nicht gefunden wurde");
+            return;
+        }
+        MsgSender sender = new MsgSender(nodes, node, self);
+        sender.send(msg);
+        
     }
     
     private void listNodes() {

@@ -32,10 +32,10 @@ public class Heartbeat implements Runnable {
             data[1] = 1; // Version
             byte[] selfData = self.toByteArr();
             data = ArrayHelper.merge(data, selfData);
-            out.write(data);
-            System.out.println("Client: IAmAliveMsg gesendet");
             ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
             new Thread(handler).start();
+            out.write(data);
+            System.out.println("Client: IAmAliveMsg gesendet");
         }
     }
     
@@ -48,10 +48,10 @@ public class Heartbeat implements Runnable {
         byte[] selfData = self.toByteArr();
         selfData = ArrayHelper.slice(selfData, 0, 6);
         data = ArrayHelper.merge(data, selfData);
-        out.write(data);
-        System.out.println("Client: EntryMsg gesendet");
         ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
         new Thread(handler).start();
+        out.write(data);
+        System.out.println("Client: EntryMsg gesendet");
     }
     
     public Heartbeat(NodeList nodes, Node server, Node self) {
