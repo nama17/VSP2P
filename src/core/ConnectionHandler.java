@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import message_handlers.*;
+import message_handler.*;
 
 public class ConnectionHandler implements Runnable {
 	private Socket connectionSocket;

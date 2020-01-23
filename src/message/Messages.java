@@ -1,4 +1,4 @@
-package messages;
+package message;
 
 import java.util.*;
 import java.io.*;

@@ -1,4 +1,4 @@
-package message_handlers;
+package message_handler;
 import core.*;
 import util.ArrayHelper;
 
@@ -24,6 +24,7 @@ public class P2PIamFoundMsgHandler extends MsgHandler{
             if (sourceId == self.id) {
                 nodeList.addNode(ip, port, id); // TODO woher bekomme ich die ID des gefundenen peers?? muss ich die passende search id merken??
             }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
