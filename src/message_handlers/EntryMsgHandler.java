@@ -87,6 +87,7 @@ public class EntryMsgHandler extends MsgHandler {
 	private void entryMsg(InputStream in) throws IOException {
 		String ip = readIp(in);
 		int port = readPort(in);
+		int id = readId(in);
 
 		if (ip == null || port == 0) {
 			return;
