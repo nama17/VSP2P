@@ -6,12 +6,6 @@ public class NodeList {
     public ArrayList<Node> nodes;
     private int maxNodes;
 
-    // my humble contribution
-    public int getSize() {
-        return nodes.size();
-    }
-    //
-
     public Node addNode(String ip, int port, int id) {
         Node node = new Node(ip, port, id);
         if (nodes.size() >= maxNodes && maxNodes > 0) {
