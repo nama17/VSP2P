@@ -21,7 +21,7 @@ public abstract class MsgHandler {
         this.connectionSocket = connectionSocket;
     }
     
-	public abstract void handle();
+	public abstract void handle() throws IOException;
 
 	protected int readPort(InputStream in) throws IOException {
 		byte[] port = new byte[2];
@@ -89,24 +89,6 @@ public abstract class MsgHandler {
 			readBytes += bytes;
 		}
 		return readBytes;
-	}
-
-	protected void nodesToByteArr(ArrayList<Node> nodeList, byte[] byteArr, int offset, int nodeCount) {
-		int index = offset;
-		for (int i = 0; i < nodeList.size(); i++) {
-			Node node = nodeList.get(i);
-			byte[] ipArr = ipToByteArr(node.ip);
-			byte[] portArr = portToByteArr(node.port);
-			if (ipArr.length + portArr.length + index > byteArr.length) {
-				return;
-			}
-			for (int c = 0; c < ipArr.length; c++) {
-				byteArr[index++] = ipArr[c];
-			}
-			for (int c = 0; c < portArr.length; c++) {
-				byteArr[index++] = portArr[c];
-			}
-		}
 	}
 
 	protected byte[] ipToByteArr(String ip) {

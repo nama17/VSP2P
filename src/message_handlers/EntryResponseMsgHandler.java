@@ -33,9 +33,10 @@ public class EntryResponseMsgHandler extends MsgHandler {
 		try {
 			Socket socket = new Socket(node.ip, node.port);
 			OutputStream out = socket.getOutputStream();
-			byte[] data = ownInfoToByteArr((byte) 3);
+			byte[] data = self.toByteArr();
+			// ownInfoToByteArr((byte) 3)
 			out.write(data);
-			 System.out.println("Client: P2pNodeRequestMsg an " + node.ip + ":" + node.port + " gesendet");
+			System.out.println("Client: P2pNodeRequestMsg an " + node.ip + ":" + node.port + " gesendet");
 			Client client = new Client(self, node);
 			new Thread(client).start();
 		} catch (IOException e) {
@@ -55,18 +56,18 @@ public class EntryResponseMsgHandler extends MsgHandler {
 			}
 		}
 	}
-	
-	private byte[] ownInfoToByteArr(byte tag) throws UnknownHostException {
-		byte[] data = new byte[10];
-		data[0] = tag;
-		data[1] = 1; // Version
-		ArrayList<Node> list = new ArrayList<Node>();
-		list.add(null);
-		list.add(new Node(self.ip, self.port, self.id));
-		nodesToByteArr(list, data, 2, 1);
-		return data;
-	}
 }
+// 	private byte[] ownInfoToByteArr(byte tag) throws UnknownHostException {
+// 		byte[] data = new byte[10];
+// 		data[0] = tag;
+// 		data[1] = 1; // Version
+// 		ArrayList<Node> list = new ArrayList<Node>();
+// 		list.add(null);
+// 		list.add(new Node(self.ip, self.port, self.id));
+		// nodesToByteArr(, data, 2, 1);
+// 		return data;
+// 	}
+// }
 
 
 // id zuweisen
