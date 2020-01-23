@@ -44,12 +44,14 @@ public class IAmAliveMsgHandler extends MsgHandler {
 	        CommandMonitor.foundHigherId = true;
 		}
 		Node node = nodeList.getNode(id);
-		// synchronized
-		if (node != null) {
+		
+		synchronized(nodeList){
+			if (node != null) {
 			node.updateTime();
 			System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
 			node.print();
 			return;
+			}
 		}
 		synchronized (nodeList) {
 			nodeList.addNode(ip, port, id);

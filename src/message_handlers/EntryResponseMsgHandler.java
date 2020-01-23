@@ -18,9 +18,9 @@ public class EntryResponseMsgHandler extends MsgHandler {
 		try {
 			InputStream in = connectionSocket.getInputStream();
 			in.read(); // Version
-			for (int i = 0; i < nodeList.nodes.size(); i++) {
-				sendP2pNodeRequestMsg(nodeList.nodes.get(i));
-			}										
+			for(int i = 0; i<4; i++){
+				nodeList.addNode(readIp(in), readPort(in), readId(in));
+			}									
 		} catch (IOException e) {
 			System.out.println(e);
 		}
