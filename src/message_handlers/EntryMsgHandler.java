@@ -50,7 +50,7 @@ public class EntryMsgHandler extends MsgHandler {
 				for (int i = 1; i < nodeCount; i++) {
 					int randomNum = ThreadLocalRandom.current().nextInt(1, nodeList.nodes.size() + 1);
 					int currentId = nodeList.nodes.get(randomNum).id;
-					// enter alivecheck here
+					// alivecheck
 					if(nodeList.nodes.get(i).time >= System.currentTimeMillis()-61*1000) {
 						if(idMemory.contains(currentId)){
 							i--;
