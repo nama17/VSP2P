@@ -13,8 +13,8 @@ public class EntryMsgHandler extends MsgHandler {
         super(nodeList, self, connectionSocket);
     }
 
-    int inPort = connectionSocket.getPort();
-	InetAddress inIp = connectionSocket.getInetAddress();
+    private int inPort = connectionSocket.getPort();
+	private InetAddress inIp = connectionSocket.getInetAddress();
 
 	@Override
 	public void handle() {
@@ -93,17 +93,17 @@ public class EntryMsgHandler extends MsgHandler {
 			return;
 		}
 		Node node = nodeList.getNode(id);
-		// synchronized
-		if (node != null) {
-			node.updateTime();
-			System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
-			node.print();
-			return;
+		synchronized (nodeList){
+			if (node != null) {
+				node.updateTime();
+				System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
+				node.print();
+				return;
+			}
 		}
 		synchronized (nodeList) {
 			nodeList.addNode(ip, port, id);
 		}
 		System.out.println("Zugangsserver: Neue Node hinzugefuegt:");
-		node.print();
-	}
+		nodeList.getNode(id).print();
 }
