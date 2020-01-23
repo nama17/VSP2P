@@ -6,16 +6,12 @@ import java.io.*;
 import java.util.*;
 
 public class P2PNodeResponseMsgHandler extends MsgHandler{
-	private NodeList nodeList;
-	private Node self;
-	private Socket connectionSocket;
-	
+    
 	public P2PNodeResponseMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
-		this.nodeList = nodeList;
-		this.self = self;
-		this.connectionSocket = connectionSocket;
-	}
-	@Override
+        super(nodeList, self, connectionSocket);
+    }
+
+    @Override
 	public void handle() {
 		try{
 		InputStream in = connectionSocket.getInputStream();

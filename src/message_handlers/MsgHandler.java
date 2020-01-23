@@ -1,5 +1,6 @@
 package message_handlers;
 
+import java.net.InetAddress;
 import java.net.Socket;
 
 import core.Node;
@@ -10,7 +11,17 @@ import java.nio.*;
 import java.util.*;
 
 public abstract class MsgHandler {
-	abstract public void handle() throws IOException;
+    protected NodeList nodeList;
+    protected Node self;
+    protected Socket connectionSocket;
+
+    public MsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
+        this.nodeList = nodeList;
+        this.self = self;
+        this.connectionSocket = connectionSocket;
+    }
+    
+	public abstract void handle();
 
 	protected int readPort(InputStream in) throws IOException {
 		byte[] port = new byte[2];

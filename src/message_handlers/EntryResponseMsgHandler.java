@@ -8,17 +8,12 @@ import java.util.*;
 import util.*;
 
 public class EntryResponseMsgHandler extends MsgHandler {
-	private NodeList nodeList;
-	private Node self;
-	private Socket connectionSocket;
 
 	public EntryResponseMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
-		this.nodeList = nodeList;
-		this.self = self;
-		this.connectionSocket = connectionSocket;
-	}
+        super(nodeList, self, connectionSocket);
+    }
 
-	@Override
+    @Override
 	public void handle() throws IOException {
 		try {
 			InputStream in = connectionSocket.getInputStream();

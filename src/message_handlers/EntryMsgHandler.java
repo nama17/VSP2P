@@ -8,17 +8,13 @@ import java.util.*;
 import util.*;
 
 public class EntryMsgHandler extends MsgHandler {
-	private NodeList nodeList;
-	private Node self;
-	private Socket connectionSocket;
-	int inPort = connectionSocket.getPort();
-	InetAddress inIp = connectionSocket.getInetAddress();
 
-	public EntryMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
-		this.nodeList = nodeList;
-		this.self = self;
-		this.connectionSocket = connectionSocket;
-	}
+    public EntryMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
+        super(nodeList, self, connectionSocket);
+    }
+
+    int inPort = connectionSocket.getPort();
+	InetAddress inIp = connectionSocket.getInetAddress();
 
 	@Override
 	public void handle() throws IOException {

@@ -2,23 +2,21 @@ package message_handlers;
 
 import java.net.Socket;
 
+import core.CommandMonitor;
 import core.Node;
+import core.NodeDataList;
 import core.NodeList;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class IAmAliveMsgHandler extends MsgHandler {
-	private NodeList nodeList;
-	private Node self;
-	private Socket connectionSocket;
 	
 	public IAmAliveMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
-		this.nodeList = nodeList;
-		this.self = self;
-		this.connectionSocket = connectionSocket;
-	}
-	@Override
+        super(nodeList, self, connectionSocket);
+    }
+
+    @Override
 	public void handle() {
 		try{
 			InputStream in = connectionSocket.getInputStream();
@@ -41,6 +39,9 @@ public class IAmAliveMsgHandler extends MsgHandler {
 		if (ip.length() == 0 || port == -1) {
 			System.out.println("Zugangsserver: Ungueltige IP oder Port erhalten");
 			return;
+		}
+		if (self != null && id > self.id) { // Check if running in Client and ID > own ID
+	        CommandMonitor.foundHigherId = true;
 		}
 		Node node = nodeList.getNode(id);
 		// synchronized
