@@ -10,13 +10,18 @@ import message_handlers.*;
 public class ConnectionHandler implements Runnable {
 	private Socket connectionSocket;
 	private NodeList nodeList;
-	private Node self;
+	private Node self = null;
 
 	public ConnectionHandler(Socket socket, NodeList nodeList, Node node) {
 		connectionSocket = socket;
 		this.nodeList = nodeList;
 		self = node;
 	}
+	
+	public ConnectionHandler(Socket socket, NodeList nodeList) {
+        connectionSocket = socket;
+        this.nodeList = nodeList;
+    }
 
 	@Override
 	public void run() {
@@ -78,11 +83,11 @@ public class ConnectionHandler implements Runnable {
 			e.printStackTrace();
 		}
 		if (handler != null){
-			try{
+			try {
 				handler.handle();
 			} catch (IOException e){
-				System.out.println(e);
+			    e.printStackTrace();
 			}
-	}
-}
+    	}
+    }
 }
