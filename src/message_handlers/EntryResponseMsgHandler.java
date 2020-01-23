@@ -14,7 +14,7 @@ public class EntryResponseMsgHandler extends MsgHandler {
     }
 
     @Override
-	public void handle() throws IOException {
+	public void handle() {
 		try {
 			InputStream in = connectionSocket.getInputStream();
 			in.read(); // Version

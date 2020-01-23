@@ -12,14 +12,19 @@ public class P2PAreYouAliveMsgHandler extends MsgHandler {
     }
 
     @Override
-	public void handle() throws IOException {
-        InputStream in = connectionSocket.getInputStream();
-        in.read(); // Version
-        readIp(in);
-        readPort(in);
-        int id = readId(in);
-        if (id >= self.id) {
-            return;
+	public void handle() {
+        try {
+            InputStream in;
+            in = connectionSocket.getInputStream();
+            in.read(); // Version
+            readIp(in);
+            readPort(in);
+            int id = readId(in);
+            if (id >= self.id) {
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         // TODO
 	}
