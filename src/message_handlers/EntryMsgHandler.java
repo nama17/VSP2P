@@ -17,7 +17,7 @@ public class EntryMsgHandler extends MsgHandler {
 	InetAddress inIp = connectionSocket.getInetAddress();
 
 	@Override
-	public void handle() throws IOException {
+	public void handle() {
 		try {
 			InputStream in = connectionSocket.getInputStream();
 			in.read(); // Version
