@@ -15,6 +15,7 @@ public class P2PNodeSearchMsg extends Message {
     public short searchId;
     public short destinationId;
 
+    public P2PNodeSearchMsg(){}
     public P2PNodeSearchMsg(Node node, short sourceId, short searchId, short destinationId) {
         this.node = node;
         this.sourceId = sourceId;

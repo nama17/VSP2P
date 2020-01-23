@@ -14,6 +14,7 @@ public class P2PIAmFoundMsg extends Message {
     public short sourceId;
     public short searchId;
 
+    public P2PIAmFoundMsg(){}
     public P2PIAmFoundMsg(Node node, short sourceId, short searchId) {
         this.node = node;
         this.sourceId = sourceId;

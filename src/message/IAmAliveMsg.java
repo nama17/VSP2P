@@ -10,6 +10,7 @@ import util.*;
 public class IAmAliveMsg extends Message {
     public Node node;
 
+    public IAmAliveMsg(){}
     public IAmAliveMsg(Node node) {
         this.node = node;
     }

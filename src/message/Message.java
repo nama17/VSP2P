@@ -9,7 +9,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import util.*;
 
-abstract class Message {
+public abstract class Message {
     public byte[] create(){
         return null;
     }
@@ -37,13 +37,14 @@ abstract class Message {
         if (readBytes == 2) {
             ByteBuffer buffer = ByteBuffer.wrap(id);
             int idInt = buffer.getShort();
-            if (idInt < 25) {
+            if (idInt <= 25) {
                 return idInt;
             }
             return -1;
         }
         return -1;
     }
+
 
     protected String readIp(InputStream in) throws IOException {
         byte[] ip = new byte[4];

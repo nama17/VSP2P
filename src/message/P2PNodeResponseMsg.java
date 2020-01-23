@@ -11,6 +11,7 @@ public class P2PNodeResponseMsg extends Message {
     public NodeList nodeList;
     public Node node;
 
+    public P2PNodeResponseMsg(){}
     public P2PNodeResponseMsg(NodeList nodeList) {
         this.nodeList = nodeList;
     }

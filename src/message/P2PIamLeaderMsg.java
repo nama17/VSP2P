@@ -12,6 +12,7 @@ import util.*;
 public class P2PIamLeaderMsg extends Message {
     public Node node;
 
+    public P2PIamLeaderMsg(){}
     public P2PIamLeaderMsg(Node node) {
         this.node = node;
     }
