@@ -111,4 +111,5 @@ public class EntryMsgHandler extends MsgHandler {
 		}
 		System.out.println("Zugangsserver: Neue Node hinzugefuegt:");
 		nodeList.getNode(id).print();
+	}
 }
