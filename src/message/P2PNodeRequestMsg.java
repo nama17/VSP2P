@@ -10,6 +10,7 @@ import util.*;
 public class P2PNodeRequestMsg extends Message {
     public Node node;
 
+    public P2PNodeRequestMsg(){}
     public P2PNodeRequestMsg(Node node) {
         this.node = node;
     }

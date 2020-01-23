@@ -45,19 +45,6 @@ public abstract class Message {
         return -1;
     }
 
-    protected int searchData(InputStream in) throws IOException {
-        byte[] id = new byte[4];
-        int readBytes = readBytes(in, id);
-        if (readBytes == 2) {
-            ByteBuffer buffer = ByteBuffer.wrap(id);
-            int idInt = buffer.getShort();
-            if (idInt <= 25) {
-                return idInt;
-            }
-            return -1;
-        }
-        return -1;
-    }
 
     protected String readIp(InputStream in) throws IOException {
         byte[] ip = new byte[4];

@@ -12,6 +12,7 @@ import util.*;
 public class P2PAreYouAliveMsg extends Message {
     public Node node;
 
+    public P2PAreYouAliveMsg(){}
     public P2PAreYouAliveMsg(Node node) {
         this.node = node;
     }

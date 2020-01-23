@@ -11,10 +11,12 @@ public class EntryMsg extends Message {
     public String ip;
     public int port;
 
+    public EntryMsg(){}
     public EntryMsg(String ip, int port){
         this.ip = ip;
         this.port = port;
     }
+
     public void read(InputStream in){
         try{
             in.read();

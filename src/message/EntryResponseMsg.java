@@ -10,6 +10,7 @@ import util.*;
 public class EntryResponseMsg extends Message {
     public NodeList nodeList;
 
+    public EntryResponseMsg(){}
     public EntryResponseMsg(NodeList nodeList) {
         this.nodeList = nodeList;
     }

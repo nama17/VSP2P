@@ -15,6 +15,7 @@ public class P2PMsgMsg extends Message {
     public short lengthMsg;
     public String msg;
 
+    public P2PMsgMsg(){}
     public P2PMsgMsg(Node node, short sourceId, short lengthMsg, String msg) {
         this.node = node;
         this.sourceId = sourceId;
