@@ -31,7 +31,7 @@ public abstract class MsgHandler {
 		int readBytes = readBytes(in, id);
 		if (readBytes == 1) {
 			ByteBuffer buffer = ByteBuffer.wrap(id);
-			int portInt = buffer.getInt();
+			int portInt = buffer.get();
 			if (portInt < 25){
 				return portInt;
 			}
