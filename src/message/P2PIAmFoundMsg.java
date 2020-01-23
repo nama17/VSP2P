@@ -11,11 +11,11 @@ import util.*;
 
 public class P2PIAmFoundMsg extends Message {
     public Node node;
-    public int sourceId;
-    public int searchId;
-    public int destinationId;
+    public short sourceId;
+    public short searchId;
+    public short destinationId;
 
-    public P2PIAmFoundMsg(Node node, int sourceId, int searchId, int destinationId) {
+    public P2PIAmFoundMsg(Node node, short sourceId, short searchId, short destinationId) {
         this.node = node;
         this.sourceId = sourceId;
         this.searchId = searchId;
@@ -24,7 +24,13 @@ public class P2PIAmFoundMsg extends Message {
 
     public void read(InputStream in) {
         try {
+            byte[] searchData = new byte[6];
+            searchData = in.readNBytes(6);
             node = new Node(readIp(in), readPort(in), readId(in));
+            ByteBuffer buffer = ByteBuffer.wrap(searchData);
+            sourceId = buffer.getShort();
+            searchId = buffer.getShort();
+            destinationId = buffer.getShort();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,11 +42,10 @@ public class P2PIAmFoundMsg extends Message {
             byte[] data = new byte[2];
             data[0] = 6;
             data[1] = 1;
-            byte[] searchData = new byte[6];
+            byte[] searchData = new byte[4];
             ByteBuffer buffer = ByteBuffer.wrap(searchData);
-            buffer.putInt(sourceId);
-            buffer.putInt(searchId);
-            buffer.putInt(destinationId);
+            buffer.putShort(sourceId);
+            buffer.putShort(searchId);
             return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), searchData);
         } else {
             return null;
