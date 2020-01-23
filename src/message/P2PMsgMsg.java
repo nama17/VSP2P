@@ -9,26 +9,29 @@ import java.io.*;
 import core.*;
 import util.*;
 
-public class P2PIAmFoundMsg extends Message {
+public class P2PMsgMsg extends Message {
     public Node node;
     public short sourceId;
-    public short searchId;
+    public short lengthMsg;
+    public String msg;
 
-    public P2PIAmFoundMsg(Node node, short sourceId, short searchId) {
+    public P2PMsgMsg(Node node, short sourceId, short lengthMsg, String msg) {
         this.node = node;
         this.sourceId = sourceId;
-        this.searchId = searchId;
+        this.lengthMsg = lengthMsg;
+        this.msg = msg;
     }
 
     public void read(InputStream in) {
         try {
             in.read();
             byte[] searchData = new byte[4];
-            searchData = in.readNBytes(4);
             node = new Node(readIp(in), readPort(in), readId(in));
+            searchData = in.readNBytes(4);
             ByteBuffer buffer = ByteBuffer.wrap(searchData);
             sourceId = buffer.getShort();
-            searchId = buffer.getShort();
+            lengthMsg = buffer.getShort();
+            msg = new String(in.readNBytes(lengthMsg));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,13 +41,15 @@ public class P2PIAmFoundMsg extends Message {
         // nodelist should always be of size 4
         if (node != null) {
             byte[] data = new byte[2];
-            data[0] = 7;
+            data[0] = 8;
             data[1] = 1;
-            byte[] searchData = new byte[4];
+            byte[] searchData = new byte[2];
             ByteBuffer buffer = ByteBuffer.wrap(searchData);
             buffer.putShort(sourceId);
-            buffer.putShort(searchId);
-            return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), searchData);
+            byte[] msgData = new byte[2];
+            buffer = ByteBuffer.wrap(msgData);
+            buffer.putShort(lengthMsg);
+            return ArrayHelper.merge(ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), searchData), ArrayHelper.merge(msgData, msg.getBytes()));
         } else {
             return null;
         }

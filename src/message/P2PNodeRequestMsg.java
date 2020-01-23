@@ -16,6 +16,7 @@ public class P2PNodeRequestMsg extends Message {
 
     public void read(InputStream in) {
         try {
+            in.read();
             this.node = new Node(readIp(in), readPort(in), readId(in));
         } catch (IOException e) {
             e.printStackTrace();

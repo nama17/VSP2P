@@ -16,6 +16,7 @@ public class IAmAliveMsg extends Message {
 
     public void read(InputStream in) {
         try {
+            in.read();
             node = new Node(readIp(in), readPort(in), readId(in));
          }catch (IOException e) {
             e.printStackTrace();

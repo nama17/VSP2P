@@ -17,6 +17,7 @@ public class P2PNodeResponseMsg extends Message {
 
     public void read(InputStream in) {
         try {
+            in.read();
             for(int i = 0; i<4; i++){
                 nodeList.addNode(readIp(in), readPort(in), readId(in));
             }

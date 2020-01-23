@@ -24,6 +24,7 @@ public class P2PNodeSearchMsg extends Message {
 
     public void read(InputStream in) {
         try {
+            in.read();
             byte[] searchData = new byte[6];
             searchData = in.readNBytes(6);
             node = new Node(readIp(in), readPort(in), readId(in));
