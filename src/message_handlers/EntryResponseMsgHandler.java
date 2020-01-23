@@ -24,7 +24,6 @@ public class EntryResponseMsgHandler extends MsgHandler {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-
 	}
 	
 	private void sendP2pNodeRequestMsg(Node node) throws UnknownHostException {
@@ -68,3 +67,6 @@ public class EntryResponseMsgHandler extends MsgHandler {
 		return data;
 	}
 }
+
+
+// id zuweisen
