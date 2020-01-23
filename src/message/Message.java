@@ -99,5 +99,4 @@ abstract class Message {
         buffer.putShort((short) port);
         return buffer.array();
     }
-
 }
