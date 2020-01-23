@@ -32,7 +32,7 @@ public class EntryMsgHandler extends MsgHandler {
 		byte[] allRandomNodes; 
 		byte[] data = new byte[2];
 		data[0] = 2;
-		data[1] = 0;
+		data[1] = 1;
 		allRandomNodes = pickRandomNodes(nodeList, 4);
 		byte[] entryResponseMsg = ArrayHelper.merge(data, allRandomNodes);
 		OutputStream out = connectionSocket.getOutputStream();
