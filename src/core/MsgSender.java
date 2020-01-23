@@ -26,8 +26,6 @@ public class MsgSender {
         buffer.putShort((short)msgBytes.length);
         data = ArrayHelper.merge(data, buffer.array());
         data = ArrayHelper.merge(data, msgBytes);
-        ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
-        new Thread(handler).start();
         out.write(data);
         System.out.println("Client: P2PMsgMsg gesendet");
     }

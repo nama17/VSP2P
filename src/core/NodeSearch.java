@@ -1,58 +1,80 @@
 package core;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.function.Function;
 
+import message.P2PNodeSearchMsg;
 import util.ArrayHelper;
+import util.StreamHelper;
+import util.ThreadHelper;
 
 public class NodeSearch implements Runnable {
     private NodeList nodes;
     private Node self;
-    private short searchID;
+    private short searchId;
     private short id;
+    private boolean found = false;
     
     @Override
     public void run() {
-        try {
-            Node node = nodes.getNode(id);
-            if (node != null) {
+        ArrayList<Thread> threads = new ArrayList<Thread>();
+        synchronized(nodes) {
+            if (nodes.getNode(id) != null) {
                 System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
                 return;
             }
             for (int i = 0; i < nodes.nodes.size(); i++) {
-                node = nodes.nodes.get(i);
-                Socket socket = new Socket(node.ip, node.port);
-                OutputStream out = socket.getOutputStream();
-                byte[] data = new byte[2];
-                data[0] = 6; // Tag
-                data[1] = 1; // Version
-                byte[] selfData = self.toByteArr();
-                data = ArrayHelper.merge(data, selfData);
-                ByteBuffer buffer = ByteBuffer.allocate(2);
-                buffer.putShort(searchID);
-                data = ArrayHelper.merge(data, buffer.array());
-                buffer = ByteBuffer.allocate(2);
-                buffer.putShort((short)id);
-                data = ArrayHelper.merge(data, buffer.array());
-                ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
-                new Thread(handler).start();
-                out.write(data);
-                System.out.println("Client: P2PNodeSearchMsg gesendet");
+                Node node = nodes.nodes.get(i);
+                Thread t = new Thread(() -> {
+                    Socket socket;
+                    try {
+                        socket = new Socket(node.ip, node.port);
+                        OutputStream out = socket.getOutputStream();
+                        InputStream in = socket.getInputStream();
+                        Message searchMsg = new P2PNodeSearchMsg(node, (short)self.id, searchId, id);
+                        out.write(searchMsg.create());
+                        System.out.println("Client: P2PNodeSearchMsg gesendet");
+                        boolean res = StreamHelper.waitForTag(in, 1000, 7, () -> {
+                            ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 7);
+                            Thread thread = new Thread(handler);
+                            thread.start();
+                            thread.join();
+                        });
+                        if (!res) {
+                            return;
+                        }
+                        found = true;
+                        Message foundMsg = new IAmFoundMsg();
+                        foundMsg.read(in);
+                        synchronized (nodes) {
+                            nodes.addNode(foundMsg.node);
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                threads.add(t);
+                t.start();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
-    
-    public void search() throws IOException {
+        ThreadHelper.multiJoin(threads);
+        System.out.println("Client: Node mit ID " + id + (found ? " nicht" : "") + " gefunden.");
+        synchronized(nodes) {            
+            if (found) {
+                nodes.getNode(id).print();
+            }
+        }
     }
     
     public NodeSearch(NodeList nodes, Node self, short searchID, short idToSearch) {
         this.nodes = nodes;
         this.self = self;
-        this.searchID = searchID;
+        this.searchId = searchID;
         id = idToSearch;
     }
 

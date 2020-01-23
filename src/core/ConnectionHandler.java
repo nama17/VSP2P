@@ -11,12 +11,20 @@ public class ConnectionHandler implements Runnable {
 	private Socket connectionSocket;
 	private NodeList nodeList;
 	private Node self = null;
+	private int tag = 0;
 
-	public ConnectionHandler(Socket socket, NodeList nodeList, Node node) {
-		connectionSocket = socket;
-		this.nodeList = nodeList;
-		self = node;
-	}
+    public ConnectionHandler(Socket socket, NodeList nodeList, Node node, int tag) {
+        connectionSocket = socket;
+        this.nodeList = nodeList;
+        self = node;
+        this.tag = tag;
+    }
+    
+    public ConnectionHandler(Socket socket, NodeList nodeList, Node node) {
+        connectionSocket = socket;
+        this.nodeList = nodeList;
+        self = node;
+    }
 	
 	public ConnectionHandler(Socket socket, NodeList nodeList) {
         connectionSocket = socket;
@@ -26,14 +34,15 @@ public class ConnectionHandler implements Runnable {
 	@Override
 	public void run() {
 		InputStream in;
-		int tag;
 		MsgHandler handler = null;
 
 		try {
 			in = connectionSocket.getInputStream();
 			InetAddress inIp = connectionSocket.getInetAddress();
 			int inPort = connectionSocket.getPort();
-			tag = in.read();
+			if (tag == 0) {			    
+			    tag = in.read();
+			}
 
 			switch (tag) {
 			case 1:

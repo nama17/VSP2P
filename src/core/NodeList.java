@@ -8,6 +8,10 @@ public class NodeList {
 
     public Node addNode(String ip, int port, int id) {
         Node node = new Node(ip, port, id);
+        return addNode(node);
+    }
+
+    public Node addNode(Node node) {
         if (nodes.size() >= maxNodes && maxNodes > 0) {
             removeOldest();
         }

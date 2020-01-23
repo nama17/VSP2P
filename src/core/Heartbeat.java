@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import message.IAmAliveMsg;
 import util.ArrayHelper;
 
 public class Heartbeat implements Runnable {
@@ -27,14 +28,8 @@ public class Heartbeat implements Runnable {
             Thread.sleep(50 * 1000);
             Socket socket = new Socket(server.ip, server.port);
             OutputStream out = socket.getOutputStream();
-            byte[] data = new byte[2];
-            data[0] = 5; // Tag
-            data[1] = 1; // Version
-            byte[] selfData = self.toByteArr();
-            data = ArrayHelper.merge(data, selfData);
-            ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
-            new Thread(handler).start();
-            out.write(data);
+            Message heartbeatMsg = new IAmAliveMsg(self);
+            out.write(heartbeatMsg.create());
             System.out.println("Client: IAmAliveMsg gesendet");
         }
     }

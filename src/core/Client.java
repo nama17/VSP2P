@@ -17,12 +17,8 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 1; i <= 25; i++) {
-            NodeDataList.add(new NodeData(i));
-        }
         CommandMonitor monitor = new CommandMonitor(nodes, self);
         new Thread(monitor).start();
-        AccessContainer.monitor = monitor;
         Heartbeat heartbeat = new Heartbeat(nodes, server, self);
         new Thread(heartbeat).start();
         try {

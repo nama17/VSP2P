@@ -4,17 +4,20 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import message.P2PIamLeaderMsg;
 import util.ArrayHelper;
+import util.ThreadHelper;
 
 public class CommandMonitor implements Runnable {
     private NodeList nodes;
     private Node self;
     private short searchID = 0;
-    public static boolean foundHigherId = false;
+    public boolean foundHigherId = false;
 
     @Override
     public void run() {
@@ -53,26 +56,17 @@ public class CommandMonitor implements Runnable {
         }
     }
     
-    private void searchPeerById(short id) throws IOException {
-        NodeSearch search = new NodeSearch(nodes, self, searchID, id);
-        new Thread(search).start();
+    private void searchPeerById(short id) throws IOException, InterruptedException {
+        NodeSearch search = new NodeSearch(nodes, self, ++searchID, id);
+        Thread t = new Thread(search);
+        t.start();
+        t.join();        
     }
     
     private void sendP2PMsgMsg(short id, String msg) throws UnknownHostException, IOException, InterruptedException {
         Node node = nodes.getNode(id);
         if (node == null) {
-            NodeData data = NodeDataList.get(id);
-            data.onFound.add(new Action() {
-                public void run() {
-                    try {
-                        sendP2PMsgMsg(id, msg);
-                    } catch (IOException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
             searchPeerById(id);
-            return;
         }
         MsgSender sender = new MsgSender(nodes, node, self);
         sender.send(msg);
@@ -85,59 +79,42 @@ public class CommandMonitor implements Runnable {
     }
     
     public void election() throws InterruptedException, IOException {
+        foundHigherId = false;
         if (self.id == 25) {
             System.out.println("Client: Eigene ID = 25, daher Leader");
             sendLeaderMsgToAll();
             return;
         }
+        ArrayList<Thread> threads = new ArrayList<Thread>();
         for (int i = self.id + 1; i <= 25; i++) {
-            PeerPing ping = new PeerPing(nodes.getNode(i), self, nodes);
-            new Thread(ping).start();
+            PeerPing ping = new PeerPing(nodes.getNode(i), self, nodes, this);
+            Thread t = new Thread(ping);
+            threads.add(t);
+            t.start();
         }
-        Thread.sleep(1 * 1000);
+        ThreadHelper.multiJoin(threads);
         if (!foundHigherId) {
+            System.out.println("Client: Leader election gewonnen.");
             sendLeaderMsgToAll();
         }
-        foundHigherId = false;
     }
     
-    private void sendLeaderMsgToAll() throws IOException {
+    private void sendLeaderMsgToAll() throws IOException, InterruptedException {
         for (int i = 1; i <= 25; i++) {
             Node node = nodes.getNode(i);
             if (node == null) {
-                NodeData data = NodeDataList.get(i);
-                fakeActionConstructor(data, i);
-                searchPeerById((short)i);
-                return;
+                searchPeerById((short) i);
             }
             sendLeaderMsg(i);
         }
-    }
-    
-    private void fakeActionConstructor(NodeData data, int id) {
-        data.onFound.add(new Action() {
-            public void run() {
-                try {
-                    sendLeaderMsg(id);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
     
     private void sendLeaderMsg(int id) throws IOException {
         Node node = nodes.getNode(id);
         Socket socket = new Socket(node.ip, node.port);
         OutputStream out = socket.getOutputStream();
-        byte[] data = new byte[2];
-        data[0] = 10; // Tag
-        data[1] = 1; // Version
-        byte[] selfData = self.toByteArr();
-        data = ArrayHelper.merge(data, selfData);
-        ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
-        new Thread(handler).start();
-        out.write(data);
+        Message leaderMsg = new P2PIamLeaderMsg(self);
+        out.write(leaderMsg.create());
         System.out.println("Client: P2PIamLeaderMsg an " + node.ip + " gesendet");
     }
     
