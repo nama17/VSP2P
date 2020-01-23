@@ -27,13 +27,13 @@ public abstract class MsgHandler {
 	}
 
 	protected int readId(InputStream in) throws IOException {
-		byte[] id = new byte[1];
+		byte[] id = new byte[2];
 		int readBytes = readBytes(in, id);
-		if (readBytes == 1) {
+		if (readBytes == 2) {
 			ByteBuffer buffer = ByteBuffer.wrap(id);
-			int portInt = buffer.get();
-			if (portInt < 25){
-				return portInt;
+			int idInt = buffer.getShort();
+			if (idInt < 25){
+				return idInt;
 			}
 			return -1;
 		}
