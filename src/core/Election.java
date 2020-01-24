@@ -25,8 +25,7 @@ public class Election {
             }
             ArrayList<Thread> threads = new ArrayList<Thread>();
             for (int i = self.id + 1; i <= 25; i++) {
-                Node node = nodes.getNode(i);
-                PeerPing ping = new PeerPing(node, self, nodes, this);
+                PeerPing ping = new PeerPing(i, self, nodes, this);
                 Thread t = new Thread(ping);
                 threads.add(t);
                 t.start();
