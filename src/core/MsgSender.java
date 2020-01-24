@@ -15,7 +15,7 @@ public class MsgSender {
     public void send(String msg) throws UnknownHostException, IOException {
         Socket socket = new Socket(receiver.ip, receiver.port);
         OutputStream out = socket.getOutputStream();
-        Message message = new P2PMsgMsg(receiver, (short)self.id, msg);
+        Message message = new P2PMsgMsg(self, (short)self.id, msg);
         out.write(message.create());
         socket.close();
         System.out.println("Client: P2PMsgMsg gesendet");
