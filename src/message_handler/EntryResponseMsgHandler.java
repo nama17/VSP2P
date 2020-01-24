@@ -20,7 +20,10 @@ public class EntryResponseMsgHandler extends MsgHandler {
 			InputStream in = connectionSocket.getInputStream();
 			EntryResponseMsg erm = new EntryResponseMsg();
 			erm.read(in);
-			this.nodeList = erm.nodeList;
+			this.nodeList.addNode(erm.nodeList.nodes.get(1));
+			this.nodeList.addNode(erm.nodeList.nodes.get(2));
+			this.nodeList.addNode(erm.nodeList.nodes.get(3));
+			this.nodeList.addNode(erm.nodeList.nodes.get(4));
 			self.id = erm.id;
 		} catch (IOException e) {
 			System.out.println(e);

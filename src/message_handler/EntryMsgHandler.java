@@ -21,12 +21,18 @@ public class EntryMsgHandler extends MsgHandler {
 	@Override
 	public void handle() {
 		try {
+			int id;
+			for(int i = 1; i<25; i++){
+				if(nodeList.getNode(i) != null){
+
+				}
+			}
 			InputStream in = connectionSocket.getInputStream();
 			OutputStream out = connectionSocket.getOutputStream();
 			EntryMsg entryMsg = new EntryMsg();
 			entryMsg.read(in);
 			synchronized (nodeList){
-				nodeList.add(entryMsg.ip, entryMsg.port, id);
+				nodeList.addNode(entryMsg.ip, entryMsg.port, id);
 			}
 			EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4));
 			out.write(entryResponseMsg.create());
