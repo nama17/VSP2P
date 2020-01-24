@@ -53,8 +53,8 @@ public class EntryMsgHandler extends MsgHandler {
 						nodeList.nodes.remove(i);
 					}
 				}
-			} else{
-				for (int i = 0; i < nodeList.nodes.size(); i++){
+			} else {
+				for (int i = 0; i < nodeList.nodes.size(); i++) {
 					if (nodeList.nodes.get(i).time >= System.currentTimeMillis() - 60 * 1000) {
 						int currentId = nodeList.nodes.get(i).id;
 						randomizedNodes.addNode((nodeList.getNode(currentId)));
@@ -63,7 +63,7 @@ public class EntryMsgHandler extends MsgHandler {
 					}
 				}
 				while (randomizedNodes.nodes.size() < nodeCount){
-				    randomizedNodes.addNode(new Node("0.0.0.0", 0, 0));
+				    randomizedNodes.nodes.add(new Node("0.0.0.0", 0, 0));
 				}
 			}
 			return randomizedNodes;

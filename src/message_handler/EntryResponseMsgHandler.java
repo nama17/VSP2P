@@ -15,7 +15,7 @@ public class EntryResponseMsgHandler extends MsgHandler {
 	public void handle() {
 		try {
 			InputStream in = connectionSocket.getInputStream();
-			EntryResponseMsg erm = new EntryResponseMsg();
+			EntryResponseMsg erm = new EntryResponseMsg(nodeList, 0);
 			erm.read(in);
 			nodeList.addNode(erm.nodeList.nodes.get(0));
 			nodeList.addNode(erm.nodeList.nodes.get(1));

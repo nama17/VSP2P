@@ -19,8 +19,8 @@ public class EntryResponseMsg extends Message {
         try {
             in.read();
             id = readId(in);
-            for (int i = 0; i < 4; i++){
-                nodeList.addNode(readIp(in), readPort(in), readId(in));
+            for (int i = 0; i < 4; i++) {
+                nodeList.nodes.add(new Node(readIp(in), readPort(in), readId(in)));
             }
         } catch (IOException e) {
             e.printStackTrace();

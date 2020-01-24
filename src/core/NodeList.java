@@ -12,7 +12,7 @@ public class NodeList {
     }
 
     public synchronized Node addNode(Node node) {
-        if (getNode(node.id) != null) {
+        if (getNode(node.id) != null || node.port == 0) {
             return null;
         }
         if (nodes.size() >= maxNodes && maxNodes > 0) {

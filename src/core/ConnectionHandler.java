@@ -39,10 +39,9 @@ public class ConnectionHandler implements Runnable {
 			in = connectionSocket.getInputStream();
 			InetAddress inIp = connectionSocket.getInetAddress();
 			int inPort = connectionSocket.getPort();
-			if (tag == 0) {			    
+			if (tag == 0) {			  
 			    tag = in.read();
 			}
-
 			switch (tag) {
 			case 1:
 				System.out.println("Server: EntryMsg empfangen von " + inIp + ":" + inPort);
