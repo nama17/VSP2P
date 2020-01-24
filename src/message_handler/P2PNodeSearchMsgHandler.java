@@ -28,8 +28,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
             }else{
                 synchronized(nodeList){
                     for(int i=0; i<nodeList.nodes.size(); i++){
-                        
-                        nodeList.nodes.get(i).ip();
+                        nodeList.nodes.get(i);
                     }
                 }
             }
