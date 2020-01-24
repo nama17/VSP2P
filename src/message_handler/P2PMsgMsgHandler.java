@@ -25,7 +25,7 @@ public class P2PMsgMsgHandler extends MsgHandler{
                     nodeList.addNode(node);
                 }
             }
-            System.out.println("Client: Nachricht erhalten von " + msgmsg.node.ip + ":" + msgmsg.node.port + "'" + msgmsg.msg + "'");    
+            System.out.println("Client: Nachricht erhalten von " + msgmsg.node.ip + ":" + msgmsg.node.port + " '" + msgmsg.msg + "'");    
         } catch (IOException e){
             e.printStackTrace();
         }

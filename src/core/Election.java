@@ -34,8 +34,9 @@ public class Election {
             if (!foundHigherId) {
                 System.out.println("Client: Leader election gewonnen.");
                 sendLeaderMsgToAll();
+            } else {                
+                System.out.println("Client: Anderer Peer ist Leader");
             }
-            System.out.println("Client: Anderer Peer ist Leader");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,7 +52,7 @@ public class Election {
                 t.join();
             }
             if (node == null) {
-                return;
+                continue;
             }
             sendLeaderMsg(i);
         }
