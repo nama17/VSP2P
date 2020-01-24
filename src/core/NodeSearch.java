@@ -23,7 +23,7 @@ public class NodeSearch implements Runnable {
     public void run() {
         ArrayList<Thread> threads = new ArrayList<Thread>();
         if (nodes.getNode(id) != null) {
-            System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
+            //System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
             return;
         }
         synchronized(nodes) {
