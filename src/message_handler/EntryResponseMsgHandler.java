@@ -19,7 +19,7 @@ public class EntryResponseMsgHandler extends MsgHandler {
 			erm.read(in);
 			for (int i = 0; i < 4; i++) {
 			    Node node = erm.nodeList.nodes.get(i);
-			    if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {			        
+			    if (node.ip != null && (!node.ip.equals(self.ip) || node.port != self.port)) {
 			        nodeList.addNode(node);
 			    }
 			}

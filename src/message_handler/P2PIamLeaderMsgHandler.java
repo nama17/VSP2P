@@ -24,7 +24,7 @@ public class P2PIamLeaderMsgHandler extends MsgHandler{
             iamlead.read(in);
             if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
                 Node node = iamlead.node;
-                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                if (node.ip != null && (!node.ip.equals(self.ip) || node.port != self.port)) {                   
                     nodeList.addNode(node);
                 }
             }

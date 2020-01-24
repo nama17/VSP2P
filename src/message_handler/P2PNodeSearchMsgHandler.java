@@ -25,7 +25,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
             searchMsg.read(in);
             if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
                 Node node = searchMsg.node;
-                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                if (node.ip != null && (!node.ip.equals(self.ip) || node.port != self.port)) {                   
                     nodeList.addNode(node);
                 }
             }

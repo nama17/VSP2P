@@ -29,8 +29,6 @@ public class IAmAliveMsgHandler extends MsgHandler {
 		        return;
 		    }
 		    node.updateTime();
-			System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
-			node.print();
 		} catch (IOException e){
 			System.out.println(e);
 		}

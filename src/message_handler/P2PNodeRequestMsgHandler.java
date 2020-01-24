@@ -20,7 +20,7 @@ public class P2PNodeRequestMsgHandler extends MsgHandler{
 			p2preq.read(in);
             if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
                 Node node = p2preq.node;
-                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                if (node.ip != null && (!node.ip.equals(self.ip) || node.port != self.port)) {                   
                     nodeList.addNode(node);
                 }
             }
