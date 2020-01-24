@@ -86,9 +86,7 @@ public class ConnectionHandler implements Runnable {
 			default:
 				System.out.println("Client: Ungueltiges Tag in Nachricht erhalten. Tag: " + tag);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {}
 		if (handler != null){
 			try {
 				handler.handle();
