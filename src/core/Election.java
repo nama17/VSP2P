@@ -44,6 +44,9 @@ public class Election {
     
     private void sendLeaderMsgToAll() throws IOException, InterruptedException {
         for (int i = 1; i <= 25; i++) {
+            if (i == self.id) {
+                continue;
+            }
             Node node = nodes.getNode(i);
             if (node == null) {
                 NodeSearch search = new NodeSearch(nodes, self, (short)i);

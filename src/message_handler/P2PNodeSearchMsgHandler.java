@@ -50,6 +50,9 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                 synchronized(nodeList) {
                     for (int i = 0; i < nodeList.nodes.size(); i++) {
                         Node node = nodeList.nodes.get(i);
+                        if (node.id == searchMsg.node.id) {
+                            continue;
+                        }
                         Thread t = new Thread(() -> {
                             Socket socket;
                             try {
