@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import util.*;
 
 public abstract class Message {
+
     public abstract byte[] create();
     
     public abstract void read(InputStream in);
