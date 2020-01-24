@@ -53,6 +53,8 @@ public class CommandMonitor implements Runnable {
         Thread t = new Thread(search);
         t.start();
         t.join();
+        Node node = nodes.getNode(id);
+        System.out.println("Client: Node mit Id " + id + " konnte" + (node == null ? " nicht" : "") + " gefunden werden");
     }
     
     private void sendP2PMsgMsg(short id, String msg) throws UnknownHostException, IOException, InterruptedException {
