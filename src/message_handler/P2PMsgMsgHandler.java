@@ -2,9 +2,13 @@ package message_handler;
 
 import java.net.Socket;
 
-import core.Node;
-import core.NodeList;
+import core.*;
 import java.net.*;
+import java.io.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
+import util.*;
+import message.*;
 
 public class P2PMsgMsgHandler extends MsgHandler{
     
@@ -14,6 +18,13 @@ public class P2PMsgMsgHandler extends MsgHandler{
 
     @Override
 	public void handle() {
-        
+        try{
+        InputStream in = connectionSocket.getInputStream();
+        P2PMsgMsg msgmsg = new P2PMsgMsg();
+        msgmsg.read(in);
+        System.out.println(msgmsg.msg);    
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 	}
 }
