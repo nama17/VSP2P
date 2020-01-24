@@ -1,21 +1,22 @@
 package message;
 
 import java.io.InputStream;
-import core.*;
-import message_handler.*;
-import java.util.*;
 import java.io.*;
-import java.net.*;
 import java.nio.ByteBuffer;
 import util.*;
 
 public abstract class Message {
-    public byte[] create(){
-        return null;
-    }
+    public abstract byte[] create();
     
-    public void read(InputStream in){}
-
+    public abstract void read(InputStream in);
+    
+    protected short readUnsignedShort(InputStream in) throws IOException {
+        byte[] num = new byte[2];
+        readBytes(in, num);
+        ByteBuffer buffer = ByteBuffer.wrap(num);
+        short res = (short) (buffer.getShort() & 0xFFFF);
+        return res;
+    }
 
     protected int readPort(InputStream in) throws IOException {
         byte[] port = new byte[2];
@@ -95,7 +96,7 @@ public abstract class Message {
         return arr;
     }
 
-    protected byte[] portToByteArr(int port) {
+    protected byte[] shortToByteArr(int port) {
         ByteBuffer buffer = ByteBuffer.allocate(2);
         buffer.putShort((short) port);
         return buffer.array();

@@ -2,8 +2,6 @@ package message;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
-import java.util.*;
 import core.*;
 import util.*;
 
