@@ -81,6 +81,7 @@ public class CommandMonitor implements Runnable {
     }
     
     public void election() throws InterruptedException, IOException {
+        System.out.println("Client: Leader election gestartet");
         foundHigherId = false;
         if (self.id == 25) {
             System.out.println("Client: Eigene ID = 25, daher Leader");
@@ -100,6 +101,7 @@ public class CommandMonitor implements Runnable {
             System.out.println("Client: Leader election gewonnen.");
             sendLeaderMsgToAll();
         }
+        System.out.println("Client: Anderer Peer ist Leader");
     }
     
     private void sendLeaderMsgToAll() throws IOException, InterruptedException {

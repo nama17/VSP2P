@@ -2,12 +2,9 @@ package message_handler;
 
 import java.net.Socket;
 
-import core.CommandMonitor;
 import core.Node;
 import core.NodeList;
 import java.io.*;
-import java.net.*;
-import java.util.*;
 import message.*;
 
 public class IAmAliveMsgHandler extends MsgHandler {
@@ -18,25 +15,23 @@ public class IAmAliveMsgHandler extends MsgHandler {
 
     @Override
 	public void handle() {
-		try{
+        if (self == null) {
+            System.out.println("Client: Unerwartete IAmAliveMsg erhalten");
+            return;
+        }
+		try {
 			InputStream in = connectionSocket.getInputStream();
 			IAmAliveMsg iaam = new IAmAliveMsg();
 			iaam.read(in);
-			synchronized (nodeList) {
-				if (iaam.node != null) {
-					iaam.node.updateTime();
-					System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
-					iaam.node.print();
-					return;
-				}
-			}
-			synchronized (nodeList) {
-				nodeList.addNode(iaam.node);
-				System.out.println("Zugangsserver: Neue Node hinzugefuegt:");
-				nodeList.getNode(iaam.node.id).print();
-			}
-		}
-		catch (IOException e){
+		    Node node = nodeList.getNode(iaam.node.id);
+		    if (node == null) {
+		        System.out.println("Server: IAmAliveMsg von toter Node erhalten");
+		        return;
+		    }
+		    node.updateTime();
+			System.out.println("Zugangsserver: Node timeout zurueckgesetzt:");
+			node.print();
+		} catch (IOException e){
 			System.out.println(e);
 		}
 	}
