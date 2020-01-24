@@ -16,10 +16,10 @@ public class CommandMonitor implements Runnable {
             String searchPattern = "^suche \\d{1,2}$";
             String msgPattern = "^sende \\d{1,2} .+$";
             String listNodesPattern = "^list$";
-            String leaderPattern = "^leader$";
+            String leaderPattern = "^election$";
             Pattern idPattern = Pattern.compile("\\d{1,2}(?=.*$)");
             Pattern msgContentPattern = Pattern.compile("(?<=sende \\d{1,2} ).+$");
-            System.out.println("Client: Folgende Befehle koennen verwendet werden:\nsuche <ID>\nsende <ID> <Nachricht>\nlist\nleader");
+            System.out.println("Client: Folgende Befehle koennen verwendet werden:\n\tsuche <ID>\n\tsende <ID> <Nachricht>\n\tlist\n\telection");
             while (true) {
                 @SuppressWarnings("resource")
                 Scanner sc = new Scanner(System.in);
@@ -65,7 +65,11 @@ public class CommandMonitor implements Runnable {
     }
     
     private void listNodes() {
-        synchronized(nodes) {            
+        synchronized(nodes) {
+            if (nodes.nodes.size() == 0) {
+                System.out.println("Client: Keine Nodes in der Liste");
+                return;
+            }
             for (int i = 0; i < nodes.nodes.size(); i++) {
                 nodes.nodes.get(i).print();
             }

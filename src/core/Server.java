@@ -19,7 +19,7 @@ public class Server implements Runnable {
             @SuppressWarnings("resource")
             ServerSocket serverSocket = new ServerSocket(port);
             String ownIp = InetAddress.getLocalHost().getHostAddress();
-            System.out.println("Zugangsserver unter der Adressse " + ownIp + ":" + port + " gestartet, warte auf eingehende Verbindungen");
+            System.out.println("Server: Zugangsserver unter der Adressse " + ownIp + ":" + port + " gestartet, warte auf eingehende Verbindungen");
             while (true) {
                 Socket connectionsocket = serverSocket.accept();
                 ConnectionHandler handler = new ConnectionHandler(connectionsocket, nodes);

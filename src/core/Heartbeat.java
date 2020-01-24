@@ -27,13 +27,13 @@ public class Heartbeat implements Runnable {
     private void keepAlive() throws InterruptedException, IOException {
         Socket socket = connect();
         while (true) {
+            Thread.sleep(50 * 1000);
             try {
                 sendMsg(socket);
             } catch (IOException e) {
                 socket = connect();
                 sendMsg(socket);
             }
-            Thread.sleep(50 * 1000);
         }
     }
     
@@ -56,7 +56,7 @@ public class Heartbeat implements Runnable {
     private void register() throws UnknownHostException, IOException {
         Socket socket = new Socket(server.ip, server.port);
         OutputStream out = socket.getOutputStream();
-        Message registerMsg = new EntryMsg(server.ip, server.port);
+        Message registerMsg = new EntryMsg(self.ip, self.port);
         out.write(registerMsg.create());
         ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
         new Thread(handler).start();

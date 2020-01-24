@@ -23,7 +23,7 @@ public class Client implements Runnable {
         try {
             @SuppressWarnings("resource")
             ServerSocket serverSocket = new ServerSocket(self.port);
-            System.out.println("Client: Serversocket gestartet, warte auf eingehende Verbindungen");
+            System.out.println("Client: Serversocket unter der Adressse " + self.ip + ":" + self.port + " gestartet, warte auf eingehende Verbindungen");
             while (true) {
                 Socket connectionsocket = serverSocket.accept();
                 ConnectionHandler handler = new ConnectionHandler(connectionsocket, nodes, self);

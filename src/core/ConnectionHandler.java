@@ -45,43 +45,43 @@ public class ConnectionHandler implements Runnable {
 
 			switch (tag) {
 			case 1:
-				System.out.println("Server: EntryMsg empfangen von Client mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Server: EntryMsg empfangen von " + inIp + ":" + inPort);
 				handler = new EntryMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 2:
-				System.out.println("Client: EntryResponseMsg empfangen von Server mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: EntryResponseMsg empfangen");
 				handler = new EntryResponseMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 3:
-				System.out.println("Client: P2PNodeRequestMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PNodeRequestMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PNodeRequestMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 4:
-				System.out.println("Client: P2PNodeResponseMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PNodeResponseMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PNodeResponseMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 5:
-				System.out.println("Server: IAmAliveMsg empfangen von Client mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Server: IAmAliveMsg empfangen von " + inIp + ":" + inPort);
 				handler = new IAmAliveMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 6:
-				System.out.println("Client: P2PNodeSearchMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PNodeSearchMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PNodeSearchMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 7:
-				System.out.println("Client: P2PIAmFoundMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PIAmFoundMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PIamFoundMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 8:
-				System.out.println("Client: P2PMsgMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PMsgMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PMsgMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 9:
-				System.out.println("Client: P2PAreYouAliveMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PAreYouAliveMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PAreYouAliveMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 10:
-				System.out.println("Client: P2PIamLeaderMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PIamLeaderMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PIamLeaderMsgHandler(nodeList, self, connectionSocket);
 				break;
 			default:
