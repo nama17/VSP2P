@@ -5,8 +5,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import message.IAmAliveMsg;
+import message.Message;
 import message.P2PAreYouAliveMsg;
-import util.ArrayHelper;
 import util.StreamHelper;
 
 public class PeerPing implements Runnable {
@@ -28,7 +29,9 @@ public class PeerPing implements Runnable {
                 ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 5);
                 Thread thread = new Thread(handler);
                 thread.start();
-                thread.join();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {}
             });
             if (!res) {
                 return;

@@ -24,13 +24,31 @@ public class Heartbeat implements Runnable {
     }
     
     private void keepAlive() throws InterruptedException, IOException {
+        Socket socket = connect();
         while (true) {
+            try {
+                sendMsg(socket);
+            } catch (IOException e) {
+                socket = connect();
+                sendMsg(socket);
+            }
             Thread.sleep(50 * 1000);
-            Socket socket = new Socket(server.ip, server.port);
-            OutputStream out = socket.getOutputStream();
-            Message heartbeatMsg = new IAmAliveMsg(self);
-            out.write(heartbeatMsg.create());
-            System.out.println("Client: IAmAliveMsg gesendet");
+        }
+    }
+    
+    private void sendMsg(Socket socket) throws IOException {
+        OutputStream out = socket.getOutputStream();
+        IAmAliveMsg heartbeatMsg = new IAmAliveMsg(self);
+        out.write(heartbeatMsg.create());
+        System.out.println("Client: IAmAliveMsg gesendet");
+    }
+    
+    private Socket connect() {
+        try {
+            return new Socket(server.ip, server.port);
+        } catch (IOException e) {
+            System.out.println("Client: Verbindung zum Server kann nicht hergestellt werden");
+            return null;
         }
     }
     

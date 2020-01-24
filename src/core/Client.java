@@ -1,6 +1,5 @@
 package core;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,6 +21,7 @@ public class Client implements Runnable {
         Heartbeat heartbeat = new Heartbeat(nodes, server, self);
         new Thread(heartbeat).start();
         try {
+            @SuppressWarnings("resource")
             ServerSocket serverSocket = new ServerSocket(self.port);
             System.out.println("Client: Serversocket gestartet, warte auf eingehende Verbindungen");
             while (true) {

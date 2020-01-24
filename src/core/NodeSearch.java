@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.function.Function;
 
+import message.Message;
+import message.P2PIAmFoundMsg;
 import message.P2PNodeSearchMsg;
-import util.ArrayHelper;
 import util.StreamHelper;
 import util.ThreadHelper;
 
@@ -43,18 +42,20 @@ public class NodeSearch implements Runnable {
                             ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 7);
                             Thread thread = new Thread(handler);
                             thread.start();
-                            thread.join();
+                            try {
+                                thread.join();
+                            } catch (InterruptedException e) {}
                         });
                         if (!res) {
                             return;
                         }
                         found = true;
-                        Message foundMsg = new IAmFoundMsg();
+                        P2PIAmFoundMsg foundMsg = new P2PIAmFoundMsg();
                         foundMsg.read(in);
                         synchronized (nodes) {
                             nodes.addNode(foundMsg.node);
                         }
-                    } catch (IOException | InterruptedException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });

@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import util.ArrayHelper;
 
 public class MsgSender {
-    private NodeList nodes;
     private Node receiver;
     private Node self;
     
@@ -27,11 +26,11 @@ public class MsgSender {
         data = ArrayHelper.merge(data, buffer.array());
         data = ArrayHelper.merge(data, msgBytes);
         out.write(data);
+        socket.close();
         System.out.println("Client: P2PMsgMsg gesendet");
     }
 
-    public MsgSender(NodeList nodes, Node receiver, Node self) {
-        this.nodes = nodes;
+    public MsgSender(Node receiver, Node self) {
         this.receiver = receiver;
         this.self = self;
     }

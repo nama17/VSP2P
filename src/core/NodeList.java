@@ -12,6 +12,9 @@ public class NodeList {
     }
 
     public Node addNode(Node node) {
+        if (getNode(node.id) != null) {
+            return null;
+        }
         if (nodes.size() >= maxNodes && maxNodes > 0) {
             removeOldest();
         }

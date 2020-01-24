@@ -3,14 +3,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import message.Message;
 import message.P2PIamLeaderMsg;
-import util.ArrayHelper;
 import util.ThreadHelper;
 
 public class CommandMonitor implements Runnable {
@@ -30,6 +29,7 @@ public class CommandMonitor implements Runnable {
             Pattern msgContentPattern = Pattern.compile("(?<=sende \\d{1,2} ).+$");
             System.out.println("Client: Folgende Befehle koennen verwendet werden:\nsuche <ID>\nsende <ID> <Nachricht>\nlist\nleader");
             while (true) {
+                @SuppressWarnings("resource")
                 Scanner sc = new Scanner(System.in);
                 String command = sc.nextLine();
                 if (command.matches(searchPattern)) {
@@ -68,7 +68,7 @@ public class CommandMonitor implements Runnable {
         if (node == null) {
             searchPeerById(id);
         }
-        MsgSender sender = new MsgSender(nodes, node, self);
+        MsgSender sender = new MsgSender(node, self);
         sender.send(msg);
     }
     
@@ -115,6 +115,7 @@ public class CommandMonitor implements Runnable {
         OutputStream out = socket.getOutputStream();
         Message leaderMsg = new P2PIamLeaderMsg(self);
         out.write(leaderMsg.create());
+        socket.close();
         System.out.println("Client: P2PIamLeaderMsg an " + node.ip + " gesendet");
     }
     
