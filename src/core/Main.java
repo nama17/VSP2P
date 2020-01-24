@@ -19,7 +19,7 @@ public class Main {
             entryServerIp = sc.nextLine();
         }
         if (entryServerIp.length() > 0) {
-            System.out.println("Bitte Port des Zugangsservers eingeben (0 für default)");
+            System.out.println("Bitte Port des Zugangsservers eingeben (0 fuer default)");
             entryServerPort = sc.nextInt();
             while (entryServerPort != 0 && (entryServerPort > 65535 || entryServerPort < 1024)) {
                 System.out.println("Port unueltig, bitte erneut eingeben");
