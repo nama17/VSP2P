@@ -83,7 +83,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                     }
                 }
                 ThreadHelper.multiJoin(threads);
-                System.out.println("Client: Suchanfrage Suchanfrage von " + searchMsg.sourceId + "(source) nach: " + searchMsg.destinationId +
+                System.out.println("Client: Suchanfrage von " + searchMsg.sourceId + " (source) nach: " + searchMsg.destinationId +
                         " konnte " + (foundMsg == null ? " nicht" : "") + " beantwortet werden.");
             }
         } catch(IOException e){

@@ -11,7 +11,7 @@ import message.P2PAreYouAliveMsg;
 import util.StreamHelper;
 
 public class PeerPing implements Runnable {
-    private Node receiver;
+    private int id;
     private Node self;
     private NodeList nodes;
     private Election election;
@@ -19,6 +19,19 @@ public class PeerPing implements Runnable {
     @Override
     public void run() {
         try {
+            Node receiver = nodes.getNode(id);
+            if (receiver == null) {
+                NodeSearch search = new NodeSearch(nodes, self, (short) id);
+                Thread t = new Thread(search);
+                t.start();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {}
+            }
+            receiver = nodes.getNode(id);
+            if (receiver == null) {
+                return;
+            }
             Socket socket = new Socket(receiver.ip, receiver.port);
             OutputStream out = socket.getOutputStream();
             InputStream in = socket.getInputStream();
@@ -46,8 +59,8 @@ public class PeerPing implements Runnable {
         }
     }
     
-    public PeerPing(Node node, Node self, NodeList nodes, Election election) {
-        receiver = node;
+    public PeerPing(int id, Node self, NodeList nodes, Election election) {
+        this.id = id;
         this.self = self;
         this.nodes = nodes;
         this.election = election;
