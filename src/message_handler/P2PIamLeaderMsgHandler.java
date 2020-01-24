@@ -28,7 +28,7 @@ public class P2PIamLeaderMsgHandler extends MsgHandler{
                     nodeList.addNode(node);
                 }
             }
-            System.out.print("Leader ist " + iamlead.node.ip + ":" + iamlead.node.port);
+            System.out.println("Leader ist " + iamlead.node.ip + ":" + iamlead.node.port);
         } catch (IOException e){
             e.printStackTrace();
         }

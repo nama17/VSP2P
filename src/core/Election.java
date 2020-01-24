@@ -50,6 +50,9 @@ public class Election {
                 t.start();
                 t.join();
             }
+            if (node == null) {
+                return;
+            }
             sendLeaderMsg(i);
         }
     }

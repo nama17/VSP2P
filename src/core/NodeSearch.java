@@ -62,7 +62,7 @@ public class NodeSearch implements Runnable {
             }
         }
         ThreadHelper.multiJoin(threads);
-        System.out.println("Client: Node mit ID " + id + (found ? " nicht" : "") + " gefunden.");        
+        System.out.println("Client: Node mit ID " + id + (found ? "" : " nicht") + " gefunden.");        
         if (found) {
             nodes.getNode(id).print();
         }
