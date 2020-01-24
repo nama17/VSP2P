@@ -7,7 +7,7 @@ public class Node {
     public int id;
     public long time;
     
-    public void updateTime() {
+    public synchronized void updateTime() {
         time = System.currentTimeMillis();
     }
     

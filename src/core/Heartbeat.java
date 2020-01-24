@@ -5,8 +5,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import message.EntryMsg;
 import message.IAmAliveMsg;
-import util.ArrayHelper;
+import message.Message;
 
 public class Heartbeat implements Runnable {
     private Node server;
@@ -44,7 +45,7 @@ public class Heartbeat implements Runnable {
     }
     
     private Socket connect() {
-        try {
+        try {         
             return new Socket(server.ip, server.port);
         } catch (IOException e) {
             System.out.println("Client: Verbindung zum Server kann nicht hergestellt werden");
@@ -55,15 +56,10 @@ public class Heartbeat implements Runnable {
     private void register() throws UnknownHostException, IOException {
         Socket socket = new Socket(server.ip, server.port);
         OutputStream out = socket.getOutputStream();
-        byte[] data = new byte[2];
-        data[0] = 1; // Tag
-        data[1] = 1; // Version
-        byte[] selfData = self.toByteArr();
-        selfData = ArrayHelper.slice(selfData, 0, 6);
-        data = ArrayHelper.merge(data, selfData);
+        Message registerMsg = new EntryMsg(server.ip, server.port);
+        out.write(registerMsg.create());
         ConnectionHandler handler = new ConnectionHandler(socket, nodes, self);
         new Thread(handler).start();
-        out.write(data);
         System.out.println("Client: EntryMsg gesendet");
     }
     

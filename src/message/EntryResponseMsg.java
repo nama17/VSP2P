@@ -32,10 +32,12 @@ public class EntryResponseMsg extends Message {
         data[0] = 2;
         data[1] = 1;
         data = ArrayHelper.merge(data, shortToByteArr(id));
-        data = ArrayHelper.merge(data, nodeList.nodes.get(0).toByteArr());
-        data = ArrayHelper.merge(data, nodeList.nodes.get(1).toByteArr());
-        data = ArrayHelper.merge(data, nodeList.nodes.get(2).toByteArr());
-        data = ArrayHelper.merge(data, nodeList.nodes.get(3).toByteArr());
+        synchronized(nodeList) {
+            data = ArrayHelper.merge(data, nodeList.nodes.get(0).toByteArr());
+            data = ArrayHelper.merge(data, nodeList.nodes.get(1).toByteArr());
+            data = ArrayHelper.merge(data, nodeList.nodes.get(2).toByteArr());
+            data = ArrayHelper.merge(data, nodeList.nodes.get(3).toByteArr());
+        }
         return data;
     }
 }
