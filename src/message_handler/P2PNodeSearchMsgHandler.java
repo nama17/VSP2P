@@ -23,6 +23,12 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
             OutputStream out = connectionSocket.getOutputStream();
             P2PNodeSearchMsg searchMsg = new P2PNodeSearchMsg();
             searchMsg.read(in);
+            if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
+                Node node = searchMsg.node;
+                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                    nodeList.addNode(node);
+                }
+            }
             if (searchMsg.sourceId == self.id) {
                 return;
             }

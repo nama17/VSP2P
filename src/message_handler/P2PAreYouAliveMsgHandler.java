@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.*;
+import java.util.Random;
 
 public class P2PAreYouAliveMsgHandler extends MsgHandler {
     
@@ -21,6 +22,12 @@ public class P2PAreYouAliveMsgHandler extends MsgHandler {
             InetAddress inIp = connectionSocket.getInetAddress();
             P2PAreYouAliveMsg p2pmsg = new P2PAreYouAliveMsg(); 
             p2pmsg.read(in);
+            if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
+                Node node = p2pmsg.node;
+                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                    nodeList.addNode(node);
+                }
+            }
             OutputStream out = connectionSocket.getOutputStream();
             IAmAliveMsg iaam = new IAmAliveMsg(self);
             out.write(iaam.create());

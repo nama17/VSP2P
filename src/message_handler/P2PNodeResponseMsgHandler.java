@@ -17,10 +17,12 @@ public class P2PNodeResponseMsgHandler extends MsgHandler{
     		InputStream in = connectionSocket.getInputStream();
     		P2PNodeResponseMsg p2presp = new P2PNodeResponseMsg();
     		p2presp.read(in);
-    		nodeList.addNode(p2presp.nodeList.nodes.get(0));
-    		nodeList.addNode(p2presp.nodeList.nodes.get(1));
-    		nodeList.addNode(p2presp.nodeList.nodes.get(2));
-    		nodeList.addNode(p2presp.nodeList.nodes.get(3));
+            for (int i = 0; i < 4; i++) {
+                Node node = p2presp.nodeList.nodes.get(i);
+                if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {                   
+                    nodeList.addNode(node);
+                }
+            }
 		} catch (IOException e){
 			e.printStackTrace();
 		}

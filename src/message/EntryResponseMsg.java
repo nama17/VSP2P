@@ -6,7 +6,7 @@ import core.*;
 import util.*;
 
 public class EntryResponseMsg extends Message {
-    public NodeList nodeList;
+    public NodeList nodeList = new NodeList(0);
     public int id;
 
     public EntryResponseMsg() {}

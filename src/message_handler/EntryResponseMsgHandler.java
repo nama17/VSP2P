@@ -15,12 +15,14 @@ public class EntryResponseMsgHandler extends MsgHandler {
 	public void handle() {
 		try {
 			InputStream in = connectionSocket.getInputStream();
-			EntryResponseMsg erm = new EntryResponseMsg(nodeList, 0);
+			EntryResponseMsg erm = new EntryResponseMsg();
 			erm.read(in);
-			nodeList.addNode(erm.nodeList.nodes.get(0));
-			nodeList.addNode(erm.nodeList.nodes.get(1));
-			nodeList.addNode(erm.nodeList.nodes.get(2));
-			nodeList.addNode(erm.nodeList.nodes.get(3));
+			for (int i = 0; i < 4; i++) {
+			    Node node = erm.nodeList.nodes.get(i);
+			    if (node.ip != null && (node.ip.equals(self.ip) || node.port != self.port)) {			        
+			        nodeList.addNode(node);
+			    }
+			}
 			self.id = erm.id;
 			System.out.println("Client: Id " + self.id + " wurde vom Server zugewiesen");
 		} catch (IOException e) {
