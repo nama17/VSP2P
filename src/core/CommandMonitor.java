@@ -73,8 +73,10 @@ public class CommandMonitor implements Runnable {
     }
     
     private void listNodes() {
-        for (int i = 0; i < nodes.nodes.size(); i++) {
-            nodes.nodes.get(i).print();
+        synchronized(nodes) {            
+            for (int i = 0; i < nodes.nodes.size(); i++) {
+                nodes.nodes.get(i).print();
+            }
         }
     }
     
@@ -87,7 +89,8 @@ public class CommandMonitor implements Runnable {
         }
         ArrayList<Thread> threads = new ArrayList<Thread>();
         for (int i = self.id + 1; i <= 25; i++) {
-            PeerPing ping = new PeerPing(nodes.getNode(i), self, nodes, this);
+            Node node = nodes.getNode(i);
+            PeerPing ping = new PeerPing(node, self, nodes, this);
             Thread t = new Thread(ping);
             threads.add(t);
             t.start();

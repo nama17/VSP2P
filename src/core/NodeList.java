@@ -6,12 +6,12 @@ public class NodeList {
     public ArrayList<Node> nodes;
     private int maxNodes;
 
-    public Node addNode(String ip, int port, int id) {
+    public synchronized Node addNode(String ip, int port, int id) {
         Node node = new Node(ip, port, id);
         return addNode(node);
     }
 
-    public Node addNode(Node node) {
+    public synchronized Node addNode(Node node) {
         if (getNode(node.id) != null) {
             return null;
         }
@@ -22,7 +22,7 @@ public class NodeList {
         return node;
     }
 
-    public Node getNode(int id) {
+    public synchronized Node getNode(int id) {
         for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
             if (node.id == id) {
@@ -33,7 +33,7 @@ public class NodeList {
         return null;
     }
 
-    private void removeOldest() {
+    private synchronized void removeOldest() {
         if (nodes.size() == 0) {
             return;
         }

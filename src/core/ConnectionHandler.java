@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import message_handler.*;
 
 public class ConnectionHandler implements Runnable {
@@ -63,14 +62,14 @@ public class ConnectionHandler implements Runnable {
 				break;
 			case 5:
 				System.out.println("Server: IAmAliveMsg empfangen von Client mit IP:" + inIp + "und Port:" + inPort);
-				handler = new P2PNodeRequestMsgHandler(nodeList, self, connectionSocket);
+				handler = new IAmAliveMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 6:
 				System.out.println("Client: P2PNodeSearchMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
 				handler = new P2PNodeSearchMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 7:
-				System.out.println("Client: P2PIAMFOUNDMSG empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
+				System.out.println("Client: P2PIAmFoundMsg empfangen von Peer mit IP:" + inIp + "und Port:" + inPort);
 				handler = new P2PIamFoundMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 8:

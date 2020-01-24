@@ -22,11 +22,11 @@ public class NodeSearch implements Runnable {
     @Override
     public void run() {
         ArrayList<Thread> threads = new ArrayList<Thread>();
+        if (nodes.getNode(id) != null) {
+            System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
+            return;
+        }
         synchronized(nodes) {
-            if (nodes.getNode(id) != null) {
-                System.out.println("Client: Node mit ID " + id + " bereits bekannt.");
-                return;
-            }
             for (int i = 0; i < nodes.nodes.size(); i++) {
                 Node node = nodes.nodes.get(i);
                 Thread t = new Thread(() -> {
@@ -52,9 +52,7 @@ public class NodeSearch implements Runnable {
                         found = true;
                         P2PIAmFoundMsg foundMsg = new P2PIAmFoundMsg();
                         foundMsg.read(in);
-                        synchronized (nodes) {
-                            nodes.addNode(foundMsg.node);
-                        }
+                        nodes.addNode(foundMsg.node);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,11 +62,9 @@ public class NodeSearch implements Runnable {
             }
         }
         ThreadHelper.multiJoin(threads);
-        System.out.println("Client: Node mit ID " + id + (found ? " nicht" : "") + " gefunden.");
-        synchronized(nodes) {            
-            if (found) {
-                nodes.getNode(id).print();
-            }
+        System.out.println("Client: Node mit ID " + id + (found ? " nicht" : "") + " gefunden.");        
+        if (found) {
+            nodes.getNode(id).print();
         }
     }
     

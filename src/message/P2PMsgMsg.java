@@ -12,10 +12,9 @@ public class P2PMsgMsg extends Message {
     public String msg;
 
     public P2PMsgMsg() {}
-    public P2PMsgMsg(Node node, short sourceId, short lengthMsg, String msg) {
+    public P2PMsgMsg(Node node, short sourceId, String msg) {
         this.node = node;
         this.sourceId = sourceId;
-        this.lengthMsg = lengthMsg;
         this.msg = msg;
     }
 
@@ -39,7 +38,7 @@ public class P2PMsgMsg extends Message {
             data[1] = 1;
             data = ArrayHelper.merge(data, node.toByteArr());
             data = ArrayHelper.merge(data, shortToByteArr(sourceId));
-            data = ArrayHelper.merge(data, shortToByteArr(lengthMsg));
+            data = ArrayHelper.merge(data, shortToByteArr(msg.getBytes().length));
             data = ArrayHelper.merge(data, msg.getBytes());
             return data;
     }
