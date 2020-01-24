@@ -64,7 +64,7 @@ public class ConnectionHandler implements Runnable {
 				handler = new IAmAliveMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 6:
-				System.out.println("Client: P2PNodeSearchMsg empfangen von " + inIp + ":" + inPort);
+				//System.out.println("Client: P2PNodeSearchMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PNodeSearchMsgHandler(nodeList, self, connectionSocket);
 				break;
 			case 7:

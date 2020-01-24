@@ -53,6 +53,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                         if (node.id == searchMsg.node.id) {
                             continue;
                         }
+                        System.out.println("1:"+ node.id + " 2:" + searchMsg.node.id);
                         Thread t = new Thread(() -> {
                             Socket socket;
                             try {

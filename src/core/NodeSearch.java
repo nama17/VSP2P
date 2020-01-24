@@ -37,7 +37,7 @@ public class NodeSearch implements Runnable {
                         InputStream in = socket.getInputStream();
                         Message searchMsg = new P2PNodeSearchMsg(node, (short)self.id, searchId, id);
                         out.write(searchMsg.create());
-                        System.out.println("Client: P2PNodeSearchMsg gesendet");
+                        //System.out.println("Client: P2PNodeSearchMsg gesendet");
                         boolean res = StreamHelper.waitForTag(in, 1000, 7, () -> {
                             ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 7);
                             Thread thread = new Thread(handler);
@@ -62,7 +62,7 @@ public class NodeSearch implements Runnable {
             }
         }
         ThreadHelper.multiJoin(threads);
-        System.out.println("Client: Node mit ID " + id + (found ? "" : " nicht") + " gefunden.");        
+        //System.out.println("Client: Node mit ID " + id + (found ? "" : " nicht") + " gefunden.");        
         if (found) {
             nodes.getNode(id).print();
         }
