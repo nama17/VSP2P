@@ -16,6 +16,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
+            @SuppressWarnings("resource")
             ServerSocket serverSocket = new ServerSocket(port);
             String ownIp = InetAddress.getLocalHost().getHostAddress();
             System.out.println("Zugangsserver unter der Adressse " + ownIp + ":" + port + " gestartet, warte auf eingehende Verbindungen");

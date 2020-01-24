@@ -10,37 +10,46 @@ import message.P2PIamLeaderMsg;
 import util.ThreadHelper;
 
 public class Election {
-    public boolean foundHigher;
+    public boolean foundHigherId;
+    private NodeList nodes;
+    private Node self;
     
-    public void election() throws InterruptedException, IOException {
-        System.out.println("Client: Leader election gestartet");
-        foundHigherId = false;
-        if (self.id == 25) {
-            System.out.println("Client: Eigene ID = 25, daher Leader");
-            sendLeaderMsgToAll();
-            return;
+    public void start() {
+        try {
+            System.out.println("Client: Leader election gestartet");
+            foundHigherId = false;
+            if (self.id == 25) {
+                System.out.println("Client: Eigene ID = 25, daher Leader");
+                sendLeaderMsgToAll();
+                return;
+            }
+            ArrayList<Thread> threads = new ArrayList<Thread>();
+            for (int i = self.id + 1; i <= 25; i++) {
+                Node node = nodes.getNode(i);
+                PeerPing ping = new PeerPing(node, self, nodes, this);
+                Thread t = new Thread(ping);
+                threads.add(t);
+                t.start();
+            }
+            ThreadHelper.multiJoin(threads);
+            if (!foundHigherId) {
+                System.out.println("Client: Leader election gewonnen.");
+                sendLeaderMsgToAll();
+            }
+            System.out.println("Client: Anderer Peer ist Leader");
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
-        ArrayList<Thread> threads = new ArrayList<Thread>();
-        for (int i = self.id + 1; i <= 25; i++) {
-            Node node = nodes.getNode(i);
-            PeerPing ping = new PeerPing(node, self, nodes, this);
-            Thread t = new Thread(ping);
-            threads.add(t);
-            t.start();
-        }
-        ThreadHelper.multiJoin(threads);
-        if (!foundHigherId) {
-            System.out.println("Client: Leader election gewonnen.");
-            sendLeaderMsgToAll();
-        }
-        System.out.println("Client: Anderer Peer ist Leader");
     }
     
     private void sendLeaderMsgToAll() throws IOException, InterruptedException {
         for (int i = 1; i <= 25; i++) {
             Node node = nodes.getNode(i);
             if (node == null) {
-                searchPeerById((short) i);
+                NodeSearch search = new NodeSearch(nodes, self, (short)i);
+                Thread t = new Thread(search);
+                t.start();
+                t.join();
             }
             sendLeaderMsg(i);
         }
@@ -54,5 +63,10 @@ public class Election {
         out.write(leaderMsg.create());
         socket.close();
         System.out.println("Client: P2PIamLeaderMsg an " + node.ip + " gesendet");
+    }
+    
+    public Election(NodeList nodes, Node self) {
+        this.nodes = nodes;
+        this.self = self;
     }
 }

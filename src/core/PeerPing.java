@@ -14,7 +14,7 @@ public class PeerPing implements Runnable {
     private Node receiver;
     private Node self;
     private NodeList nodes;
-    private CommandMonitor monitor;
+    private Election election;
 
     @Override
     public void run() {
@@ -38,19 +38,19 @@ public class PeerPing implements Runnable {
             }
             Message aliveMsg = new IAmAliveMsg();
             aliveMsg.read(in);
-            synchronized (monitor) {
-                monitor.foundHigherId = true;
+            synchronized (election) {
+                election.foundHigherId = true;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public PeerPing(Node node, Node self, NodeList nodes, CommandMonitor monitor) {
+    public PeerPing(Node node, Node self, NodeList nodes, Election election) {
         receiver = node;
         this.self = self;
         this.nodes = nodes;
-        this.monitor = monitor;
+        this.election = election;
     }
 
 }

@@ -13,9 +13,9 @@ import util.StreamHelper;
 import util.ThreadHelper;
 
 public class NodeSearch implements Runnable {
+    private static short searchId = 0;
     private NodeList nodes;
     private Node self;
-    private short searchId;
     private short id;
     private boolean found = false;
     
@@ -68,11 +68,11 @@ public class NodeSearch implements Runnable {
         }
     }
     
-    public NodeSearch(NodeList nodes, Node self, short searchID, short idToSearch) {
+    public NodeSearch(NodeList nodes, Node self, short idToSearch) {
         this.nodes = nodes;
         this.self = self;
-        this.searchId = searchID;
         id = idToSearch;
+        searchId++;
     }
 
 }

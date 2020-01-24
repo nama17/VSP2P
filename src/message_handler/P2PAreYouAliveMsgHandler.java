@@ -25,7 +25,8 @@ public class P2PAreYouAliveMsgHandler extends MsgHandler {
             IAmAliveMsg iaam = new IAmAliveMsg(self);
             out.write(iaam.create());
             System.out.println("Client: IAmAliveMsg an " + inIp + " gesendet (Leader election)");
-            // TODO start election
+            Election election = new Election(nodeList, self);
+            election.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
