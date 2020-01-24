@@ -58,9 +58,16 @@ public class CommandMonitor implements Runnable {
     }
     
     private void sendP2PMsgMsg(short id, String msg) throws UnknownHostException, IOException, InterruptedException {
+        if (id == self.id) {
+            System.out.println("Client: Nachricht kann nicht an gleiche Instanz gesendet werden");
+            return;
+        }
         Node node = nodes.getNode(id);
         if (node == null) {
             searchPeerById(id);
+        }
+        if (node == null) {
+            return;
         }
         MsgSender sender = new MsgSender(node, self);
         sender.send(msg);
