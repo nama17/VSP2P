@@ -44,7 +44,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                     return;
                 }
 
-                System.out.println("Client: Neue Suchanfrage von " + searchMsg.node.id + "(source) bekommen. Gesucht nach: " + searchMsg.destinationId);
+                //System.out.println("Client: Neue Suchanfrage von " + searchMsg.node.id + "(source) bekommen. Gesucht nach: " + searchMsg.destinationId);
                 searches.add((int)searchMsg.searchId);
                 ArrayList<Thread> threads = new ArrayList<Thread>();
                 synchronized(nodeList) {
@@ -87,8 +87,8 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                     }
                 }
                 ThreadHelper.multiJoin(threads);
-                System.out.println("Client: Suchanfrage von " + searchMsg.node.id + " (source) nach: " + searchMsg.destinationId +
-                        " konnte " + (foundMsg == null ? " nicht" : "") + " beantwortet werden.");
+                //System.out.println("Client: Suchanfrage von " + searchMsg.node.id + " (source) nach: " + searchMsg.destinationId +
+                //        " konnte " + (foundMsg == null ? " nicht" : "") + " beantwortet werden.");
             }
         } catch(IOException e){
             e.printStackTrace();
