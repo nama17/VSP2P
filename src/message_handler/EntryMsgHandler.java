@@ -12,9 +12,8 @@ public class EntryMsgHandler extends MsgHandler {
 
     public EntryMsgHandler(NodeList nodeList, Node self, Socket connectionSocket) {
         super(nodeList, self, connectionSocket);
-    }
-	// gucken welche id in der nodelist noch nicht vergeben
-
+	}
+	
     private int inPort = connectionSocket.getPort();
 	private InetAddress inIp = connectionSocket.getInetAddress();
 
