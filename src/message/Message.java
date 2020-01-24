@@ -10,9 +10,7 @@ import java.nio.ByteBuffer;
 import util.*;
 
 public abstract class Message {
-    public byte[] create(){
-        return null;
-    }
+    public byte[] create(){}
     
     public void read(InputStream in){}
 
