@@ -25,15 +25,10 @@ public class Heartbeat implements Runnable {
     }
     
     private void keepAlive() throws InterruptedException, IOException {
-        Socket socket = connect();
         while (true) {
+            Socket socket = connect();
             Thread.sleep(50 * 1000);
-            try {
-                sendMsg(socket);
-            } catch (IOException e) {
-                socket = connect();
-                sendMsg(socket);
-            }
+            sendMsg(socket);
         }
     }
     
