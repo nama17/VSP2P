@@ -22,21 +22,22 @@ public class EntryMsgHandler extends MsgHandler {
 	public void handle() {
 		try {
 			int id;
-			for(int i = 1; i<25; i++){
-				if(nodeList.getNode(i) != null){
-
-				}
-			}
 			InputStream in = connectionSocket.getInputStream();
 			OutputStream out = connectionSocket.getOutputStream();
 			EntryMsg entryMsg = new EntryMsg();
 			entryMsg.read(in);
 			synchronized (nodeList){
-				nodeList.addNode(entryMsg.ip, entryMsg.port, id);
+				for(int i = 1; i<25; i++){
+					if(nodeList.getNode(i) == null){
+						id = i;
+						nodeList.addNode(entryMsg.ip, entryMsg.port, id);
+						EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4), this.id);
+						out.write(entryResponseMsg.create());
+						System.out.println("Zugangsserver: EntryResponseMsg gesendet");
+						break;
+					}
+				}
 			}
-			EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4));
-			out.write(entryResponseMsg.create());
-			System.out.println("Zugangsserver: EntryResponseMsg gesendet");
 		} catch (IOException e) {
 			System.out.println(e);
 		}
