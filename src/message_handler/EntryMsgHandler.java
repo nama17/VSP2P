@@ -23,9 +23,11 @@ public class EntryMsgHandler extends MsgHandler {
 		try {
 			InputStream in = connectionSocket.getInputStream();
 			OutputStream out = connectionSocket.getOutputStream();
-			in.read(); // Version
 			EntryMsg entryMsg = new EntryMsg();
 			entryMsg.read(in);
+			synchronized (nodeList){
+				nodeList.add(entryMsg.ip, entryMsg.port, id);
+			}
 			EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4));
 			out.write(entryResponseMsg.create());
 			System.out.println("Zugangsserver: EntryResponseMsg gesendet");
@@ -75,7 +77,6 @@ public class EntryMsgHandler extends MsgHandler {
 				}
 			}
 			return randomizedNodes;
-
 		}
 	}
 }

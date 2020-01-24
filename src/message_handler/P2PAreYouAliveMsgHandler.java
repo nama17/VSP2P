@@ -1,5 +1,7 @@
 package message_handler;
 import core.*;
+import message.IAmAliveMsg;
+import message.P2PAreYouAliveMsg;
 import util.ArrayHelper;
 
 import java.io.IOException;
@@ -18,25 +20,18 @@ public class P2PAreYouAliveMsgHandler extends MsgHandler {
         try {
             InputStream in = connectionSocket.getInputStream();
             InetAddress inIp = connectionSocket.getInetAddress();
-            in.read(); // Version
-            readIp(in);
-            readPort(in);
-            int id = readId(in);
-            if (id >= self.id) {
+            P2PAreYouAliveMsg p2pmsg = new P2PAreYouAliveMsg(); 
+            p2pmsg.read(in);
+            if (p2pmsg.node.id >= self.id) {
                 return;
             };
             OutputStream out = connectionSocket.getOutputStream();
-            byte[] data = new byte[2];
-            data[0] = 5; // Tag
-            data[1] = 1; // Version
-            byte[] selfData = self.toByteArr();
-            data = ArrayHelper.merge(data, selfData);
+            IAmAliveMsg iaam = new IAmAliveMsg(self);
             ConnectionHandler handler = new ConnectionHandler(connectionSocket, nodeList, self);
             new Thread(handler).start();
-            out.write(data);
+            out.write(iaam.create());
             System.out.println("Client: IAmAliveMsg an " + inIp + " gesendet (Leader election)");
-            AccessContainer.monitor.election();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 	}
