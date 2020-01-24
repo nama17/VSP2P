@@ -31,7 +31,7 @@ public class EntryMsgHandler extends MsgHandler {
 					if(nodeList.getNode(i) == null){
 						id = i;
 						nodeList.addNode(entryMsg.ip, entryMsg.port, id);
-						EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4), this.id);
+						EntryResponseMsg entryResponseMsg = new EntryResponseMsg(pickRandomNodes(nodeList, 4), id);
 						out.write(entryResponseMsg.create());
 						System.out.println("Zugangsserver: EntryResponseMsg gesendet");
 						break;
