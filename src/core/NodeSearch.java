@@ -35,7 +35,7 @@ public class NodeSearch implements Runnable {
                         socket = new Socket(node.ip, node.port);
                         OutputStream out = socket.getOutputStream();
                         InputStream in = socket.getInputStream();
-                        Message searchMsg = new P2PNodeSearchMsg(node, (short)self.id, searchId, id);
+                        Message searchMsg = new P2PNodeSearchMsg(self, searchId, id);
                         out.write(searchMsg.create());
                         //System.out.println("Client: P2PNodeSearchMsg gesendet");
                         boolean res = StreamHelper.waitForTag(in, 1000, 7, () -> {

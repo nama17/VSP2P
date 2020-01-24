@@ -29,38 +29,38 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                     nodeList.addNode(node);
                 }
             }
-            if (searchMsg.sourceId == self.id) {
+            if (searchMsg.node.id == self.id) {
                 return;
             }
             if (searchMsg.destinationId == self.id){
                 P2PIAmFoundMsg foundMsg = new P2PIAmFoundMsg(self, searchMsg.searchId);
                 out.write(foundMsg.create());
             } else {
-                if (searchData.get((int)searchMsg.sourceId) == null) {
-                    searchData.put((int)searchMsg.sourceId, new ArrayList<Integer>());
+                if (searchData.get(searchMsg.node.id) == null) {
+                    searchData.put(searchMsg.node.id, new ArrayList<Integer>());
                 }
-                ArrayList<Integer> searches = searchData.get((int)searchMsg.sourceId);
+                ArrayList<Integer> searches = searchData.get(searchMsg.node.id);
                 if (searches.contains((int)searchMsg.searchId)) {
                     return;
                 }
 
-                System.out.println("Client: Neue Suchanfrage von " + searchMsg.sourceId + "(source) bekommen. Gesucht nach: " + searchMsg.destinationId);
+                System.out.println("Client: Neue Suchanfrage von " + searchMsg.node.id + "(source) bekommen. Gesucht nach: " + searchMsg.destinationId);
                 searches.add((int)searchMsg.searchId);
                 ArrayList<Thread> threads = new ArrayList<Thread>();
                 synchronized(nodeList) {
                     for (int i = 0; i < nodeList.nodes.size(); i++) {
                         Node node = nodeList.nodes.get(i);
-                        if (node.id == searchMsg.node.id) {
+                        if (node.id == searchMsg.node.id || node.port == searchMsg.node.port && node.ip.equals(searchMsg.node.ip)) {
                             continue;
                         }
-                        System.out.println("1:"+ node.id + " 2:" + searchMsg.node.id);
                         Thread t = new Thread(() -> {
                             Socket socket;
                             try {
                                 socket = new Socket(node.ip, node.port);
                                 OutputStream _out = socket.getOutputStream();
                                 InputStream _in = socket.getInputStream();
-                                Message _searchMsg = new P2PNodeSearchMsg(node, searchMsg.sourceId, searchMsg.searchId, searchMsg.destinationId);
+                                Node mixedNode = new Node(self.ip, self.port, searchMsg.node.id);
+                                Message _searchMsg = new P2PNodeSearchMsg(mixedNode, searchMsg.searchId, searchMsg.destinationId);
                                 _out.write(_searchMsg.create());
                                 System.out.println("Client: P2PNodeSearchMsg weitergeleitet");
                                 boolean res = StreamHelper.waitForTag(_in, 1000, 7, () -> {
@@ -87,7 +87,7 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                     }
                 }
                 ThreadHelper.multiJoin(threads);
-                System.out.println("Client: Suchanfrage von " + searchMsg.sourceId + " (source) nach: " + searchMsg.destinationId +
+                System.out.println("Client: Suchanfrage von " + searchMsg.node.id + " (source) nach: " + searchMsg.destinationId +
                         " konnte " + (foundMsg == null ? " nicht" : "") + " beantwortet werden.");
             }
         } catch(IOException e){

@@ -7,14 +7,12 @@ import util.*;
 
 public class P2PNodeSearchMsg extends Message {
     public Node node;
-    public short sourceId;
     public short searchId;
     public short destinationId;
 
     public P2PNodeSearchMsg() {}
-    public P2PNodeSearchMsg(Node node, short sourceId, short searchId, short destinationId) {
+    public P2PNodeSearchMsg(Node node, short searchId, short destinationId) {
         this.node = node;
-        this.sourceId = sourceId;
         this.searchId = searchId;
         this.destinationId = destinationId;
     }
@@ -23,7 +21,6 @@ public class P2PNodeSearchMsg extends Message {
         try {
             in.read();
             node = new Node(readIp(in), readPort(in), readId(in));
-            sourceId = (short) readId(in);
             searchId = readUnsignedShort(in);
             destinationId = readUnsignedShort(in);
         } catch (IOException e) {
@@ -36,7 +33,6 @@ public class P2PNodeSearchMsg extends Message {
         data[0] = 6;
         data[1] = 1;
         data = ArrayHelper.merge(data, node.toByteArr());
-        data = ArrayHelper.merge(data, shortToByteArr(sourceId));
         data = ArrayHelper.merge(data, shortToByteArr(searchId));
         data = ArrayHelper.merge(data, shortToByteArr(destinationId));
         return data;
