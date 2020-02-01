@@ -63,14 +63,20 @@ public abstract class Message {
         return "";
     }
 
-    protected long readTime(InputStream in) throws IOException {
+    protected byte[] readTime(InputStream in) throws IOException {
         byte[] time = new byte[8];
         int readBytes = readBytes(in, time);
         if (readBytes == 8) {
-            long timeLong = byteArrToTime(time);
+            byte[] timeLong = time;
             return timeLong;
         }
-        return 0;
+        return null;
+    }
+
+    protected byte[] timeToByteArr(long time) {
+        ByteBuffer buffer = ByteBuffer.allocate(4);
+        buffer.putLong((long) time);
+        return buffer.array();
     }
 
     protected long byteArrToTime(byte[] arr) {

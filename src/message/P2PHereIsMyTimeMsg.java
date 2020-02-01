@@ -7,12 +7,12 @@ import util.*;
 
 public class P2PHereIsMyTimeMsg extends Message {
     public Node node;
-    public byte[] time = new byte[8];
+    public long time = 0;
 
     public P2PHereIsMyTimeMsg() {
     }
 
-    public P2PHereIsMyTimeMsg(Node node, byte[] time) {
+    public P2PHereIsMyTimeMsg(Node node, long time) {
         this.node = node;
         this.time = time;
     }
@@ -21,7 +21,8 @@ public class P2PHereIsMyTimeMsg extends Message {
         try {
             in.read();
             node = new Node(readIp(in), readPort(in), readId(in));
-            time = in.read();
+            time = byteArrToTime(readTime(in));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +32,6 @@ public class P2PHereIsMyTimeMsg extends Message {
         byte[] data = new byte[2];
         data[0] = 12;
         data[1] = 1;
-        return ArrayHelper.merge(data, node.toByteArr());
+        return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), ;
     }
 }
