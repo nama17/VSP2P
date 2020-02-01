@@ -17,9 +17,10 @@ public class CommandMonitor implements Runnable {
             String msgPattern = "^sende \\d{1,2} .+$";
             String listNodesPattern = "^list$";
             String leaderPattern = "^election$";
+            String timePattern = "^time$";
             Pattern idPattern = Pattern.compile("\\d{1,2}(?=.*$)");
             Pattern msgContentPattern = Pattern.compile("(?<=sende \\d{1,2} ).+$");
-            System.out.println("Client: Folgende Befehle koennen verwendet werden:\n\tsuche <ID>\n\tsende <ID> <Nachricht>\n\tlist\n\telection");
+            System.out.println("Client: Folgende Befehle koennen verwendet werden:\n\tsuche <ID>\n\tsende <ID> <Nachricht>\n\tlist\n\telection\n\ttime");
             while (true) {
                 @SuppressWarnings("resource")
                 Scanner sc = new Scanner(System.in);
@@ -41,11 +42,21 @@ public class CommandMonitor implements Runnable {
                     listNodes();
                 } else if (command.matches(leaderPattern)) {
                     election();
+                } else if (command.matches(timePattern)) {
+                    syncTime();
                 }
             }
         } catch (NumberFormatException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void syncTime() {
+        if (!self.leader) {
+            System.out.println("Client: Zeit Synchronisierung kann nicht gestartet werden, da nicht leader!");
+            return;
+        }
+        new TimeSync(nodes, self).start();
     }
     
     private void searchPeerById(short id) throws IOException, InterruptedException {
