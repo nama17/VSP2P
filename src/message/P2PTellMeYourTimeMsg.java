@@ -26,7 +26,7 @@ public class P2PTellMeYourTimeMsg extends Message {
 
     public byte[] create() {
         byte[] data = new byte[2];
-        data[0] = 9;
+        data[0] = 11;
         data[1] = 1;
         return ArrayHelper.merge(data, node.toByteArr());
     }

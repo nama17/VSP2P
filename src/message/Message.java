@@ -8,9 +8,9 @@ import util.*;
 public abstract class Message {
 
     public abstract byte[] create();
-    
+
     public abstract void read(InputStream in);
-    
+
     protected short readUnsignedShort(InputStream in) throws IOException {
         byte[] num = new byte[2];
         readBytes(in, num);
@@ -47,7 +47,6 @@ public abstract class Message {
         return -1;
     }
 
-
     protected String readIp(InputStream in) throws IOException {
         byte[] ip = new byte[4];
         int readBytes = readBytes(in, ip);
@@ -62,6 +61,25 @@ public abstract class Message {
             return "";
         }
         return "";
+    }
+
+    protected long readTime(InputStream in) throws IOException {
+        byte[] time = new byte[8];
+        int readBytes = readBytes(in, time);
+        if (readBytes == 8) {
+            long timeLong = byteArrToTime(time);
+            return timeLong;
+        }
+        return 0;
+    }
+
+    protected long byteArrToTime(byte[] arr) {
+        if (arr.length == 8) {
+            ByteBuffer buffer = ByteBuffer.wrap(arr);
+            long time = (long) (buffer.getLong() & 0xFFFF);
+            return time;
+        } else
+            return 0;
     }
 
     protected String byteArrToIp(byte[] arr) {
