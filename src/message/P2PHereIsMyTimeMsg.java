@@ -9,8 +9,7 @@ public class P2PHereIsMyTimeMsg extends Message {
     public Node node;
     public long time = 0;
 
-    public P2PHereIsMyTimeMsg() {
-    }
+    public P2PHereIsMyTimeMsg() {}
 
     public P2PHereIsMyTimeMsg(Node node, long time) {
         this.node = node;
@@ -21,7 +20,7 @@ public class P2PHereIsMyTimeMsg extends Message {
         try {
             in.read();
             node = new Node(readIp(in), readPort(in), readId(in));
-            time = byteArrToTime(readTime(in));
+            time = readTime(in);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +30,7 @@ public class P2PHereIsMyTimeMsg extends Message {
         byte[] data = new byte[2];
         data[0] = 12;
         data[1] = 1;
-        return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), timeToByteArr(time));
+        data = ArrayHelper.merge(data, node.toByteArr());
+        return ArrayHelper.merge(data, timeToByteArr(time));
     }
 }
