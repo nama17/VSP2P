@@ -22,7 +22,6 @@ public class P2PHereIsMyTimeMsgHandler extends MsgHandler {
             P2PHereIsMyTimeMsg p2pmytime = new P2PHereIsMyTimeMsg();
             p2pmytime.read(in);
             System.out.println("This is unintended behaviour");
-            System.out.println("Leader ist " + iamlead.node.ip + ":" + iamlead.node.port);
         } catch (IOException e) {
             e.printStackTrace();
         }
