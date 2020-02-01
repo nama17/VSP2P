@@ -1,4 +1,5 @@
 package core;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -10,7 +11,8 @@ public class Main {
     public static void main(String[] args) throws UnknownHostException {
         @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
-        System.out.println("Bitte IP des Zugangsservers eingeben (z.B. 127.0.0.1). Keine IP angeben um einen Zugangsserver zu starten");
+        System.out.println(
+                "Bitte IP des Zugangsservers eingeben (z.B. 127.0.0.1). Keine IP angeben um einen Zugangsserver zu starten");
         String entryServerIp = sc.nextLine();
         int entryServerPort;
         boolean startedServer = false;

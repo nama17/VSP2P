@@ -23,7 +23,7 @@ public class Heartbeat implements Runnable {
             e.printStackTrace();
         }
     }
-    
+
     private void keepAlive() throws InterruptedException, IOException {
         while (true) {
             Socket socket = connect();
@@ -31,23 +31,23 @@ public class Heartbeat implements Runnable {
             sendMsg(socket);
         }
     }
-    
+
     private void sendMsg(Socket socket) throws IOException {
         OutputStream out = socket.getOutputStream();
         IAmAliveMsg heartbeatMsg = new IAmAliveMsg(self);
         out.write(heartbeatMsg.create());
         System.out.println("Client: IAmAliveMsg gesendet");
     }
-    
+
     private Socket connect() {
-        try {         
+        try {
             return new Socket(server.ip, server.port);
         } catch (IOException e) {
             System.out.println("Client: Verbindung zum Server kann nicht hergestellt werden");
             return null;
         }
     }
-    
+
     private void register() throws UnknownHostException, IOException {
         Socket socket = new Socket(server.ip, server.port);
         OutputStream out = socket.getOutputStream();
@@ -57,7 +57,7 @@ public class Heartbeat implements Runnable {
         new Thread(handler).start();
         System.out.println("Client: EntryMsg gesendet");
     }
-    
+
     public Heartbeat(NodeList nodes, Node server, Node self) {
         this.nodes = nodes;
         this.server = server;
