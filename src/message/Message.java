@@ -74,8 +74,8 @@ public abstract class Message {
     }
 
     protected byte[] timeToByteArr(long time) {
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putLong((long) time);
+        ByteBuffer buffer = ByteBuffer.allocate(8);
+        buffer.putLong(time);
         return buffer.array();
     }
 
