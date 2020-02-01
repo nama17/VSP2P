@@ -32,6 +32,6 @@ public class P2PHereIsMyTimeMsg extends Message {
         byte[] data = new byte[2];
         data[0] = 12;
         data[1] = 1;
-        return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), ;
+        return ArrayHelper.merge(ArrayHelper.merge(data, node.toByteArr()), timeToByteArr(time));
     }
 }
