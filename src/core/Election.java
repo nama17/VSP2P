@@ -17,6 +17,7 @@ public class Election {
     public void start() {
         try {
             System.out.println("Client: Leader election gestartet");
+            self.leader = false;
             foundHigherId = false;
             if (self.id == 25) {
                 System.out.println("Client: Eigene ID = 25, daher Leader");
@@ -34,8 +35,10 @@ public class Election {
             if (!foundHigherId) {
                 System.out.println("Client: Leader election gewonnen.");
                 sendLeaderMsgToAll();
+                self.leader = true;
             } else {                
                 System.out.println("Client: Anderer Peer ist Leader");
+                self.leader = false;
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

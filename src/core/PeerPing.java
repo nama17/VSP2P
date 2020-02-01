@@ -38,8 +38,8 @@ public class PeerPing implements Runnable {
             Message ping = new P2PAreYouAliveMsg(receiver);
             out.write(ping.create());
             System.out.println("Client: P2PAreYouAliveMsg an " + receiver.ip + " gesendet");
-            boolean res = StreamHelper.waitForTag(in, 1000, 5, () -> {
-                ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 5);
+            boolean res = StreamHelper.waitForTag(in, 1000, 5, (int tag) -> {
+                ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, tag);
                 Thread thread = new Thread(handler);
                 thread.start();
                 try {

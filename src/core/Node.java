@@ -6,6 +6,7 @@ public class Node {
     public int port;
     public int id;
     public long time;
+    public boolean leader;
     
     public synchronized void updateTime() {
         time = System.currentTimeMillis();
@@ -50,5 +51,6 @@ public class Node {
         this.port = port;
         this.id = id;
         this.time = System.currentTimeMillis();
+        leader = false;
     }
 }

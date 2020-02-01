@@ -38,8 +38,8 @@ public class NodeSearch implements Runnable {
                         Message searchMsg = new P2PNodeSearchMsg(self, searchId, id);
                         out.write(searchMsg.create());
                         //System.out.println("Client: P2PNodeSearchMsg gesendet");
-                        boolean res = StreamHelper.waitForTag(in, 1000, 7, () -> {
-                            ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, 7);
+                        boolean res = StreamHelper.waitForTag(in, 1000, 7, (int tag) -> {
+                            ConnectionHandler handler = new ConnectionHandler(socket, nodes, self, tag);
                             Thread thread = new Thread(handler);
                             thread.start();
                             try {
