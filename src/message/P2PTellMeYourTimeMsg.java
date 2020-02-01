@@ -8,8 +8,7 @@ import util.*;
 public class P2PTellMeYourTimeMsg extends Message {
     public Node node;
 
-    public P2PTellMeYourTimeMsg() {
-    }
+    public P2PTellMeYourTimeMsg() {}
 
     public P2PTellMeYourTimeMsg(Node node) {
         this.node = node;
