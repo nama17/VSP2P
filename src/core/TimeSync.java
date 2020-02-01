@@ -67,8 +67,13 @@ public class TimeSync {
         byte[] newTimeMsg = new P2PHereIsYourNewTimeMsg(self, avg).create();
         for (Socket socket : sockets) {
             Thread t = new Thread(() -> {
-                OutputStream out = socket.getOutputStream();
-                out.write(newTimeMsg);
+                OutputStream out;
+                try {
+                    out = socket.getOutputStream();
+                    out.write(newTimeMsg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
             t.start();
         }
