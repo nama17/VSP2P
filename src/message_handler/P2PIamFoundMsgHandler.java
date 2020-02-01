@@ -17,7 +17,7 @@ public class P2PIamFoundMsgHandler extends MsgHandler{
             InputStream in = connectionSocket.getInputStream();
             P2PIAmFoundMsg p2pfound = new P2PIAmFoundMsg();
             p2pfound.read(in);
-            System.out.println("This is unintended behaviour");
+            System.out.println("This is unintended behaviour. P2PIamFoundMsgHandler");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -49,6 +49,9 @@ public class TimeSync {
                         myTimeMsg.read(in);
                         times.add(myTimeMsg.time);
                         sockets.add(socket);
+                        Date date = new Date();
+                        date.setTime(myTimeMsg.time);
+                        System.out.println("Client: Zeit von peer empfangen: "  + date);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

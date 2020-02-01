@@ -67,12 +67,8 @@ public abstract class Message {
         byte[] time = new byte[8];
         int readBytes = readBytes(in, time);
         if (readBytes == 8) {
-<<<<<<< HEAD
-            return time;
-=======
             ByteBuffer buffer = ByteBuffer.wrap(time);
             return buffer.getLong();
->>>>>>> fd9539ffcdd5bff82086c12dbeaad8e09080a82c
         }
         return 0;
     }
@@ -83,18 +79,6 @@ public abstract class Message {
         return buffer.array();
     }
 
-<<<<<<< HEAD
-    protected long byteArrToTime(byte[] arr) {
-        if (arr.length == 8) {
-            ByteBuffer buffer = ByteBuffer.wrap(arr);
-            long time = (long) (buffer.getLong() & 0xFFFFFFFFFFFFFFFF);
-            return time;
-        } else
-            return 0;
-    }
-
-=======
->>>>>>> fd9539ffcdd5bff82086c12dbeaad8e09080a82c
     protected String byteArrToIp(byte[] arr) {
         String ip = "";
         for (int i = 0; i < 4; i++) {
