@@ -22,7 +22,6 @@ public class P2PHereIsMyTimeMsg extends Message {
             in.read();
             node = new Node(readIp(in), readPort(in), readId(in));
             time = byteArrToTime(readTime(in));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
