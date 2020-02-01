@@ -1,3 +1,5 @@
+package message_handler;
+
 import core.*;
 import message.IAmAliveMsg;
 import java.io.IOException;
