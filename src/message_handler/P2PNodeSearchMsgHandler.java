@@ -63,8 +63,8 @@ public class P2PNodeSearchMsgHandler extends MsgHandler{
                                 Message _searchMsg = new P2PNodeSearchMsg(mixedNode, searchMsg.searchId, searchMsg.destinationId);
                                 _out.write(_searchMsg.create());
                                 System.out.println("Client: P2PNodeSearchMsg weitergeleitet");
-                                boolean res = StreamHelper.waitForTag(_in, 1000, 7, () -> {
-                                    ConnectionHandler handler = new ConnectionHandler(socket, nodeList, self, 7);
+                                boolean res = StreamHelper.waitForTag(_in, 1000, 7, (int tag) -> {
+                                    ConnectionHandler handler = new ConnectionHandler(socket, nodeList, self, tag);
                                     Thread thread = new Thread(handler);
                                     thread.start();
                                     try {

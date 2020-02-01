@@ -1,12 +1,11 @@
 package message_handler;
 
 import core.*;
-import message.IAmAliveMsg;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.*;
-import java.util.Random;
+import java.util.Date;
+
 import message.*;
 
 public class P2PHereIsYourNewTimeMsgHandler extends MsgHandler {
@@ -21,7 +20,9 @@ public class P2PHereIsYourNewTimeMsgHandler extends MsgHandler {
             InputStream in = connectionSocket.getInputStream();
             P2PHereIsYourNewTimeMsg timeMsg = new P2PHereIsYourNewTimeMsg();
             timeMsg.read(in);
-            System.out.println("Meine zugewiesene Zeit ist" + timeMsg.time);
+            Date date = new Date();
+            date.setTime(timeMsg.time);
+            System.out.println("Client: Neue Zeit wurde zugewiesen: " + date);
         } catch (IOException e) {
             e.printStackTrace();
         }
