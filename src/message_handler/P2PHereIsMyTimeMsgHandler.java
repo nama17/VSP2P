@@ -1,6 +1,8 @@
+package message_handler;
+
 import core.*;
 import message.IAmAliveMsg;
-import message.P2PAreYouAliveMsg;
+import message.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,14 +19,9 @@ public class P2PHereIsMyTimeMsgHandler extends MsgHandler {
     public void handle() {
         try {
             InputStream in = connectionSocket.getInputStream();
-            P2PIamLeaderMsg iamlead = new P2PIamLeaderMsg();
-            iamlead.read(in);
-            if (nodeList.nodes.size() < 4 || new Random().nextInt(10) < 1) {
-                Node node = iamlead.node;
-                if (node.ip != null && (!node.ip.equals(self.ip) || node.port != self.port)) {
-                    nodeList.addNode(node);
-                }
-            }
+            P2PHereIsMyTimeMsg p2pmytime = new P2PHereIsMyTimeMsg();
+            p2pmytime.read(in);
+            System.out.println("This is unintended behaviour");
             System.out.println("Leader ist " + iamlead.node.ip + ":" + iamlead.node.port);
         } catch (IOException e) {
             e.printStackTrace();

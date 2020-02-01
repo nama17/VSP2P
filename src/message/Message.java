@@ -67,8 +67,7 @@ public abstract class Message {
         byte[] time = new byte[8];
         int readBytes = readBytes(in, time);
         if (readBytes == 8) {
-            byte[] timeLong = time;
-            return timeLong;
+            return time;
         }
         return null;
     }
@@ -82,7 +81,7 @@ public abstract class Message {
     protected long byteArrToTime(byte[] arr) {
         if (arr.length == 8) {
             ByteBuffer buffer = ByteBuffer.wrap(arr);
-            long time = (long) (buffer.getLong() & 0xFFFF);
+            long time = (long) (buffer.getLong() & 0xFFFFFFFFFFFFFFFF);
             return time;
         } else
             return 0;
