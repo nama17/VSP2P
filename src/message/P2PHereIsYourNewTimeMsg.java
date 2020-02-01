@@ -7,7 +7,7 @@ import util.*;
 
 public class P2PHereIsYourNewTimeMsg extends Message {
     public Node node;
-    public long time;
+    public long time = 0;
 
     public P2PHereIsYourNewTimeMsg() {
     }
