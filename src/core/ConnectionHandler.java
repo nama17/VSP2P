@@ -79,10 +79,22 @@ public class ConnectionHandler implements Runnable {
 				System.out.println("Client: P2PAreYouAliveMsg empfangen von " + inIp + ":" + inPort);
 				handler = new P2PAreYouAliveMsgHandler(nodeList, self, connectionSocket);
 				break;
-			case 10:
-				System.out.println("Client: P2PIamLeaderMsg empfangen von " + inIp + ":" + inPort);
-				handler = new P2PIamLeaderMsgHandler(nodeList, self, connectionSocket);
-				break;
+            case 10:
+                System.out.println("Client: P2PIamLeaderMsg empfangen von " + inIp + ":" + inPort);
+                handler = new P2PIamLeaderMsgHandler(nodeList, self, connectionSocket);
+                break;
+            case 11:
+                System.out.println("Client: P2PTellMeYourTimeMsg empfangen von " + inIp + ":" + inPort);
+                handler = new P2PTellMeYourTimeMsgHandler(nodeList, self, connectionSocket);
+                break;
+            case 12:
+                System.out.println("Client: P2PHereIsMyTimeMsg empfangen von " + inIp + ":" + inPort);
+                handler = new P2PHereIsMyTimeMsgHandler(nodeList, self, connectionSocket);
+                break;
+            case 13:
+                System.out.println("Client: P2PHereIsYourNewTimeMsg empfangen von " + inIp + ":" + inPort);
+                handler = new P2PHereIsYourNewTimeMsgHandler(nodeList, self, connectionSocket);
+                break;
 			default:
 				System.out.println("Client: Ungueltiges Tag in Nachricht erhalten. Tag: " + tag);
 			}
